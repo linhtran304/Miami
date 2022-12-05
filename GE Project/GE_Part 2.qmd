@@ -1,0 +1,69 @@
+---
+title: GE Aviation - Remaining Useful Life Analysis
+subtitle: Part 2 - Data Overview
+author: Linh Tran
+format:
+  html:
+    page-layout: full
+    toc: true
+    toc-title: Contents
+    embed-resources: true
+    smooth-scroll: true
+    theme: lumen
+editor: visual
+jupyter: python3
+---
+
+## Read the Data
+
+```{python}
+import pandas as pd
+from pandas_profiling import ProfileReport
+```
+
+```{python}
+df = pd.read_csv("D:\School\FL 2022\ISA 401\GE\ge_data.csv")
+df.info()
+```
+
+## Profile Report
+
+```{python}
+profile = ProfileReport(df)
+```
+
+```{python}
+profile.to_notebook_iframe()
+```
+
+## Summary
+
+-   There are no missing values, zero values, or duplicates in the data
+
+-   Variables with constant values hence will be dropped:
+
+    -   `mean_tra`
+
+    -   `mean_t2`
+
+    -   `mean_p2`
+
+    -   `mean_epr`
+
+    -   `mean_farb`
+
+    -   `mean_nf_dmd`
+
+    -   `mean_pcnfr_dmd`
+
+-   Variables that contribute little to no information to the model hence will also be dropped:
+
+    -   `dataset`
+
+    -   `esn`
+
+    -   `unit`
+
+    -   `last_datetime`
+-   `mean_p15` has values that are very close to each other that might make it highly correlated with many other variables. I believe this variable could be dropped as it is not so meaningful.
+-   `mean_t24` is highly correlated with `operator` and its distribution is quite skewed, so I considered dropping this variable as well.
