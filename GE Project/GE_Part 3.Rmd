@@ -1,0 +1,96 @@
+---
+title: "RUL Analysis - Data Exploration"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: 
+      version: 4
+      bootswatch: lumen
+    orientation: columns
+    source_code: embed 
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+pacman::p_load(flexdashboard, tidyverse, ggplot2, plotly, hrbrthemes, bslib, ggpubr)
+
+hrbrthemes::import_plex_sans()
+
+df = read_csv("D:\\School\\FL 2022\\ISA 401\\GE\\ge_data.csv")
+df = df[-c(1,2,3)]
+
+```
+
+Relationship
+===
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+selectInput('operator', strong('Operator'), choices = c('All', 'PGT','AIC','FRON','AXM'))
+dateRangeInput('date', strong('Date Range'),
+                           start = '2018-01-01', end = '2018-07-24',
+                           min = '2018-01-01', max = '2018-07-24')
+selectInput('X', strong('Select a parameter'),names(df), names(df)[7])
+selectInput('Y', strong('Select response'), names(df), names(df)[-1])
+```
+
+Outputs {.no-padding}
+-----------------------------------------------------------------------
+
+```{r}
+selected_data <- reactive({
+      req(input$date)
+      validate(need(!is.na(input$date[1]) & !is.na(input$date[2]), "Error: Please provide both a start and an end date."))
+      validate(need(input$date[1] < input$date[2], "Error: Start date should be earlier than end date."))
+      if (input$operator == 'All') {
+        df %>%
+          filter(
+            last_datetime > as.POSIXct(input$date[1]) & last_datetime < as.POSIXct(input$date[2])
+          )
+      }
+      else {
+        df %>%
+          filter(
+            operator == input$operator,
+            last_datetime > as.POSIXct(input$date[1]) & last_datetime < as.POSIXct(input$date[2])
+          )
+      }
+    })
+
+renderPlotly({
+      p = ggplot(selected_data(), aes_string(x=input$X, y=input$Y)) + 
+          geom_point(color = 'cadetblue3') + 
+          geom_smooth(method = 'lm', se=FALSE, linewidth = 0.6, color = 'darkslategray') +
+          stat_cor(output.type = 'text', label.x.npc = 0.1) +
+          theme_ipsum(grid="Y") + 
+          labs(title="Explore relationships between variables")
+          
+      plotly::ggplotly(p, width = 805, height = 439)
+    })
+```
+
+Comparison
+===
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+```{r}
+selectInput('y', strong('Select a parameter'),names(df), names(df)[7])
+```
+
+Outputs {.no-padding}
+-----------------------------------------------------------------------
+```{r}
+renderPlotly({
+      p3 = ggplot(df, aes_string(x='operator', y=input$y)) +
+          geom_boxplot(color = 'darkslategray', outlier.shape = NA) +
+          geom_jitter(color="cadetblue3",size=0.9,alpha=0.6,width=0.1) +
+          theme_ipsum(grid="Y") + xlab("") + ylab("") + 
+          labs(title="Comparing measures between the operators")
+
+      plotly::ggplotly(p3,width = 805, height = 439)
+    })
+  
+```
+
