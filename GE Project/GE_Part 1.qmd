@@ -1,0 +1,253 @@
+---
+title: "GE Aviation - Remaining Useful Life Analysis"
+subtitle: "Part 1 - Data Preparation"
+author: 'Linh Tran'
+format: 
+  html:
+    page-layout: full 
+    toc: true
+    toc-title: Contents
+    embed-resources: true
+    smooth-scroll: true
+    theme: lumen
+  
+editor: visual
+---
+
+## Getting Started
+
+### Connecting to the database
+
+```{r}
+pacman::p_load(RMySQL, tidyverse, lubridate, geosphere, magrittr, kableExtra)
+
+mysqlconnection = dbConnect(
+  RMySQL::MySQL(),
+  dbname='gedata',
+  host='mysql.fsb.miamioh.edu',
+  port=3306,
+  user='fsbstud',
+  password='fsb4you')
+
+dbListTables(mysqlconnection)
+```
+
+### Reading the table
+
+```{r}
+esn_rul = dbReadTable(mysqlconnection, "esn_rul")
+engine_data_aic = dbReadTable(mysqlconnection, "engine_data_aic")
+engine_data_axm = dbReadTable(mysqlconnection, "engine_data_axm")
+engine_data_fron = dbReadTable(mysqlconnection, "engine_data_fron")
+engine_data_pgt = dbReadTable(mysqlconnection, "engine_data_pgt")
+lkp_airport_codes_t = dbReadTable(mysqlconnection, "lkp_airport_codes_t")
+manufacturing_sql_by_esn = dbReadTable(mysqlconnection, "manufacturing_sql_by_esn")
+```
+
+**Top observations for each dataset**
+
+::: panel-tabset
+## engine_data_aic
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(engine_data_aic)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "left", font_size = 11)
+```
+
+## engine_data_axm
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(engine_data_axm)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "left", font_size = 11)
+```
+
+## engine_data_fron
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(engine_data_fron)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "left", font_size = 11)
+```
+
+## engine_data_pgt
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(engine_data_pgt)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "left", font_size = 11)
+```
+
+## esn_rul
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(esn_rul)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "center", font_size = 11)
+```
+
+## lkp_airport_codes_t
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(lkp_airport_codes_t)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "center", font_size = 11)
+```
+
+## manufacturing_sql_by_esn
+
+```{r echo = FALSE, results = 'asis'}
+kbl(head(manufacturing_sql_by_esn)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), position = "left", font_size = 11, full_width = F)
+```
+:::
+
+## Joining the data sets
+
+First, the 4 engine datasets from the 4 operators were appended to create the `engine_health` dataset.
+
+```{r}
+engine_health = rbind(engine_data_aic, engine_data_axm, engine_data_fron, engine_data_pgt)
+```
+
+Next, `engine_health` was merged with the remaining datasets to create a collective data frame `df`, specifically:
+
+-   `manufacturing_sql_by_esn` contains part numbers and operations of each engine
+-   `lkp_airport_codes_t` contains the coordinates of each airport used to calculate the flight distance for each flight.
+    -   After merging, the coordinates columns for `depart_icao` were renamed as `depart_latitude` and `depart_longitude`, similarly for `destination_icao`.
+-   `esn_rul` contains key-value pairs of esn and RUL.
+
+```{r}
+df = left_join(engine_health, manufacturing_sql_by_esn, by = 'esn')
+
+df = left_join(df, lkp_airport_codes_t, by=c('depart_icao'='airport_icao'))
+colnames(df)[which(names(df) == "latitude")]= 'depart_latitude'
+colnames(df)[which(names(df) == "longitude")]= 'depart_longitude'
+
+df = left_join(df, lkp_airport_codes_t, by=c('destination_icao'='airport_icao'))
+colnames(df)[which(names(df) == "latitude")]= 'destination_latitude'
+colnames(df)[which(names(df) == "longitude")]= 'destination_longitude'
+
+df = left_join(df, esn_rul, by = 'esn')
+```
+
+## Calculate Distance
+
+The flight distance was estimated (in kilometers) from the provided coordinates of departure and destination locations using the `distVincentyEllipsoid` function from the `geosphere` package, which calculates the shortest distance between 2 points (the *great-circle-distance*) according to the *Vincenty (ellipsoid)* method. Please note that this estimate does not necessarily reflect the real distance of a particular flight due to the lack of specific information on the flight path.
+
+The columns on location information were dropped afterward as they were no longer informative, also to reduce the number of variables to consider.
+
+```{r}
+df$distance = mapply(function(long1, lat1, long2, lat2) distVincentyEllipsoid(c(long1, lat1), c(long2, lat2))/1000, df$depart_longitude, df$depart_latitude,df$destination_longitude, df$destination_latitude)
+
+# Drop location columns
+df %<>% select(-c('depart_icao','destination_icao', 
+                  'depart_latitude','depart_longitude',
+                  'destination_latitude','destination_longitude'))
+```
+
+## Check for tidy, technically correct, and consistent data
+
+-   Fill in NA values for blank cells that were not null.
+    -   From my first validation run, I noticed that there were missing values in `distance`, as well as the latitude and longitude columns. I then investigated these observations more closely and figured there were blank cells in the ICAO columns (hence the NA values in the coordinates columns and calculated distance). These cells appeared to be non-null because they might contain empty strings or blank space.
+
+    -   Therefore, this step was to make sure any columns with missing values would actually be indicated as such in the validation report.
+-   Change variable types where necessary:
+    -   `datetime` as *POSIXct*
+
+    -   `dataset`, `unit`, `operator` as *factor*
+
+    -   `tra`, `htbleed`, `nf_dmd`, and `pcnfr_dmd` as *numeric*
+
+```{r}
+glimpse(df) ## quick look at the data types
+
+df %<>% mutate_all(na_if,"") ## replace "" with NA
+
+## Change variable types
+df$datetime = ymd_hms(df$datetime)
+
+df = mutate(df, across(.cols = c(unit), .fns = as.character))
+df = mutate(df, across(.cols = c(dataset, unit, operator), .fns = as.factor))
+df = mutate(df, across(.cols = c(tra, htbleed, nf_dmd, pcnfr_dmd), .fns= as.numeric))
+
+```
+
+### Data validation
+
+```{r}
+pacman::p_load(pointblank)
+
+# Step 1
+act = action_levels(warn_at = 0.01, notify_at = 0.01)
+
+# Step 2
+agent = create_agent(tbl = df, actions = act)
+
+# Step 3
+agent %<>% 
+  ## technically correct checks
+  col_is_posix(columns = 'datetime') %>% 
+  col_is_factor(columns = vars(dataset, unit, operator)) %>% 
+  col_is_numeric(columns = -c(1,2,3,4,5,6,37)) %>%
+  col_is_integer(columns = vars(flight_cycle,rul)) %>% 
+  ## consistency checks
+  col_vals_not_null(columns = c(1:ncol(df))) %>% 
+  col_vals_gte(columns = vars(t2, t24, t30, t50, nf, nc, phi, nrf, nrc, w31, w32, distance, rul,
+                              X44321P02_op016_median_first, X44321P02_op420_median_first, X54321P01_op116_median_first,
+                              X54321P01_op220_median_first, X65421P11_op232_median_first, X65421P11_op630_median_first), 
+               value = 0)
+
+# (4) Eval
+results = interrogate(agent)
+results  
+```
+
+### Imputation
+
+From the Pointblank Validation above, we can see that `distance` has a little over 3% of missing values, thus imputation is necessary before constructing a predictive model.
+
+```{r}
+median_distance = median(df$distance, na.rm = T)
+df$distance = replace_na(df$distance, median_distance)
+```
+
+### Exclude observations missing RUL
+
+In order to create a regression model, the response variable must not be null. Therefore, observations that did not have a RUL for training a model were dropped.
+
+```{r}
+df %<>% drop_na(rul) 
+```
+
+## Aggregate Data
+
+Given the insufficient information about the health status of each engine, the data was aggregated to the last flight cycle to capture the latest or averaged measures for RUL prediction.
+
+For each engine, most measures, such as temperature and pressure, were averaged across all flight cycles to account for changes (both degradation and additional maintenance) in between flights. `distance` was aggregated as total to reflect the accumulated traveled distance.
+
+`hpc_eff_mod` and `hpc_flow_mod` were input variables of the simulation that generated the raw data, so they were not included in the aggregation.
+
+```{r}
+df %<>% group_by(dataset, esn, unit, operator) %>% 
+        summarize(last_flight_cycle = max(flight_cycle),
+                  last_datetime = max(datetime),
+                  mean_tra = mean(tra),
+                  mean_t2 = mean(t2), mean_t24 = mean(t24), mean_t30 = mean(t30), mean_t50 = mean(t50),
+                  mean_p2 = mean(p2), mean_p15 = mean(p15), mean_p30 = mean(p30),
+                  mean_nf = mean(nf), mean_nc = mean(nc),
+                  mean_epr = mean(epr), mean_ps30 = mean(ps30), mean_phi = mean(phi),
+                  mean_nrf = mean(nrf), mean_nrc = mean(nrc), mean_bpr = mean(bpr),
+                  mean_farb = mean(farb), mean_htbleed = mean(htbleed),
+                  mean_nf_dmd = mean(nf_dmd), mean_pcnfr_dmd = mean(pcnfr_dmd), 
+                  mean_w31 = mean(w31), mean_w32 = mean(w32),
+                  mean_X44321P02_op016 = mean(X44321P02_op016_median_first), mean_X44321P02_op420 = mean(X44321P02_op420_median_first),
+                  mean_X54321P01_op116 = mean(X54321P01_op116_median_first), mean_X54321P01_op220 = mean(X54321P01_op220_median_first),
+                  mean_X65421P11_op232 = mean(X65421P11_op232_median_first), mean_X65421P11_op630 = mean(X65421P11_op630_median_first),
+                  total_distance = sum(distance),
+                  rul = min(rul))
+
+```
+
+## Export Data
+
+The data was then exported for later use in the project.
+
+```{r}
+write_csv(df, 'ge_data.csv')
+```
