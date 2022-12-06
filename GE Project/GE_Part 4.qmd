@@ -1,0 +1,107 @@
+---
+title: GE Aviation - Remaining Useful Life Analysis
+subtitle: Part 4 - Model Building
+author: Linh Tran
+format:
+  html:
+    page-layout: full
+    toc: true
+    toc-title: Contents
+    embed-resources: true
+    smooth-scroll: true
+    theme: lumen
+editor: visual
+jupyter: python3
+---
+
+### Read the Data
+
+```{python}
+import pandas as pd
+```
+
+```{python}
+#| tags: []
+df = pd.read_csv("D:\School\FL 2022\ISA 401\GE\ge_data.csv")
+df.info()
+```
+
+### Drop unnecessary variables
+
+Unnecessary variables are dropped as explained in the previous part:
+
+```{python}
+vars_to_drop = ['dataset','esn', 'unit', 'last_datetime','mean_tra','mean_t2','mean_p2', 
+                'mean_epr','mean_farb','mean_nf_dmd', 'mean_pcnfr_dmd', 'mean_p15', 'mean_t24']
+df.drop(vars_to_drop, axis = 1, inplace = True)
+```
+
+```{python}
+df.info()
+```
+
+```{python}
+df.drop('rul', axis = 1).columns
+```
+
+### Build Model
+
+As mentioned in previous parts, the goal is to create a regression model. In order to accomplish this, I used PyCaret to automate the model building process.
+
+```{python}
+from pycaret.regression import *
+```
+
+```{python}
+s = setup(df, target='rul', train_size = 0.9, session_id=123, remove_multicollinearity=True, multicollinearity_threshold=0.8, polynomial_features=True, feature_interaction=True, fold = 5)
+```
+
+Given that there were only 100 observations, the following models were considered:
+
+-   Linear Regression
+
+-   Lasso Regression
+
+-   Ridge Regression
+
+-   Elastic Net
+
+-    Least Angle Regression
+
+-   Lasso Least Angle Regression
+
+```{python}
+best = compare_models(include=['lr', 'lasso', 'ridge','en', 'lar', 'llar'])
+```
+
+```{python}
+model = create_model('lasso')
+```
+
+```{python}
+model = tune_model(model)
+```
+
+```{python}
+evaluate_model(model)
+```
+
+```{python}
+predict_model(model) ## predict on the holdout set
+```
+
+```{python}
+final_model = finalize_model(model)
+```
+
+```{python}
+final_model
+```
+
+### Save the Model
+
+```{python}
+save_model(final_model, 'model')
+```
+
+
