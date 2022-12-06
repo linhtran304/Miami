@@ -10,5 +10,5 @@ This is a project from GE Aviation in my *ISA 401: Business Intelligence & Data 
 - **Part 2 Data Overview:** A pandas profiling report to get an overview of the data
 - **Part 3: Data Exploration:** An interactive dashboard that allows one to explore the patterns and relationships between the variables
 - **Part 4: Model Building:** Create a regression model to predict RUL
-- **Part 5: Model Deployment:** A gradio-based app hosted on [Hugging Face](https://huggingface.co/spaces/linhtran/ge_project)
+- **Part 5: Model Deployment:** Deploy the created model using a gradio-based app hosted on [Hugging Face](https://huggingface.co/spaces/linhtran/ge_project)
 
