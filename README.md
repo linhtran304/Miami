@@ -1,8 +1,10 @@
 # My projects at Miami University
-This repo contains my class projects at Miami as a Business Analytics major.
+This repo contains my class projects at Miami for my Business Analytics major.
 
 ## GE Project
-This is a project from GE Aviation in my *ISA 401: Business Intelligence & Data Visualization* class. The goal of this project is to predict the Remaining Useful Life (RUL) of aircraft gas turbines to help prevent unscheduled maintenance. The project comprises of 5 parts:
+This is a case study from GE Aviation in my *ISA 401: Business Intelligence & Data Visualization* class. The goal of this project is to predict the Remaining Useful Life (RUL) of aircraft gas turbines to help prevent unscheduled maintenance. All flight data in this project (except for the Airport ICAO table) were simulated using the simulation software CMAPSS (Commercial Modular Aero-Propulsion System Simulation). 
+
+The project comprises of 5 parts:
 - **[Part 1: Data Preparation:](https://linhtran304.github.io/ge_project/GE_Part1)**
     - Merge the datasets and compute any necessary variables
     - Ensure the data is tidy, technically correct, and consistent
