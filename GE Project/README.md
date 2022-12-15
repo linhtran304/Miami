@@ -1,4 +1,4 @@
-## GE Project
+# GE Project
 This is a project from GE Aviation in my *ISA 401: Business Intelligence & Data Visualization* class. The goal of this project is to predict the Remaining Useful Life (RUL) of aircraft gas turbines to help prevent unscheduled maintenance. The project comprises of 5 parts:
 - **[Part 1: Data Preparation:](https://linhtran304.github.io/ge_project/GE_Part1)**
     - Merge the datasets and compute any necessary variables
