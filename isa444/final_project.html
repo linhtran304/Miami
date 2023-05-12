@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Linh Tran">
+<title>ISA 444 - Final Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="final_project_files/libs/clipboard/clipboard.min.js"></script>
+<script src="final_project_files/libs/quarto-html/quarto.js"></script>
+<script src="final_project_files/libs/quarto-html/popper.min.js"></script>
+<script src="final_project_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="final_project_files/libs/quarto-html/anchor.min.js"></script>
+<link href="final_project_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="final_project_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="final_project_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="final_project_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="final_project_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script src="final_project_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="final_project_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="final_project_files/libs/datatables-binding-0.27/datatables.js"></script><script src="final_project_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><link href="final_project_files/libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="final_project_files/libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="final_project_files/libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script><link href="final_project_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="final_project_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+</head>
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#data-collection" id="toc-data-collection" class="nav-link active" data-scroll-target="#data-collection"><span class="toc-section-number">1</span>  Data Collection</a>
+  <ul class="collapse">
+<li><a href="#sp-500" id="toc-sp-500" class="nav-link" data-scroll-target="#sp-500"><span class="toc-section-number">1.1</span>  S&amp;P 500</a></li>
+  <li><a href="#performance-index" id="toc-performance-index" class="nav-link" data-scroll-target="#performance-index"><span class="toc-section-number">1.2</span>  Performance Index</a></li>
+  <li><a href="#electricity-generation" id="toc-electricity-generation" class="nav-link" data-scroll-target="#electricity-generation"><span class="toc-section-number">1.3</span>  Electricity Generation</a></li>
+  <li><a href="#append-the-datasets" id="toc-append-the-datasets" class="nav-link" data-scroll-target="#append-the-datasets"><span class="toc-section-number">1.4</span>  Append the datasets</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="toc-section-number">2</span>  Data Preparation</a>
+  <ul class="collapse">
+<li><a href="#missing-values-and-imputation" id="toc-missing-values-and-imputation" class="nav-link" data-scroll-target="#missing-values-and-imputation"><span class="toc-section-number">2.1</span>  Missing Values and Imputation</a></li>
+  <li><a href="#rolling" id="toc-rolling" class="nav-link" data-scroll-target="#rolling"><span class="toc-section-number">2.2</span>  Rolling</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#define-functions" id="toc-define-functions" class="nav-link" data-scroll-target="#define-functions"><span class="toc-section-number">3</span>  Define Functions</a>
+  <ul class="collapse">
+<li><a href="#get_fct" id="toc-get_fct" class="nav-link" data-scroll-target="#get_fct"><span class="toc-section-number">3.1</span>  get_fct</a></li>
+  <li><a href="#h2o_fct" id="toc-h2o_fct" class="nav-link" data-scroll-target="#h2o_fct"><span class="toc-section-number">3.2</span>  h2o_fct</a></li>
+  <li><a href="#prophet_fct" id="toc-prophet_fct" class="nav-link" data-scroll-target="#prophet_fct"><span class="toc-section-number">3.3</span>  prophet_fct</a></li>
+  </ul>
+</li>
+  <li><a href="#apply-functions-to-100-time-seires" id="toc-apply-functions-to-100-time-seires" class="nav-link" data-scroll-target="#apply-functions-to-100-time-seires"><span class="toc-section-number">4</span>  Apply functions to 100 time seires</a></li>
+  <li>
+<a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">5</span>  Summary</a>
+  <ul class="collapse">
+<li><a href="#all-models-on-a-subset" id="toc-all-models-on-a-subset" class="nav-link" data-scroll-target="#all-models-on-a-subset"><span class="toc-section-number">5.1</span>  All models on a subset</a></li>
+  <li>
+<a href="#models-on-full-dataset" id="toc-models-on-full-dataset" class="nav-link" data-scroll-target="#models-on-full-dataset"><span class="toc-section-number">5.2</span>  4 models on full dataset</a>
+  <ul class="collapse">
+<li><a href="#all-metrics-for-each-series" id="toc-all-metrics-for-each-series" class="nav-link" data-scroll-target="#all-metrics-for-each-series"><span class="toc-section-number">5.2.1</span>  All metrics for each series</a></li>
+  <li><a href="#summary-of-top-performing-times-on-each-model" id="toc-summary-of-top-performing-times-on-each-model" class="nav-link" data-scroll-target="#summary-of-top-performing-times-on-each-model"><span class="toc-section-number">5.2.2</span>  Summary of top performing times on each model</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul></nav>
+</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">ISA 444 - Final Project</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Linh Tran </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header><section id="data-collection" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Data Collection</h1>
+<section id="sp-500" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="sp-500">
+<span class="header-section-number">1.1</span> S&amp;P 500</h2>
+<pre class="<r>"><code>sp = read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies") |&gt; 
+  html_elements("table") |&gt; 
+  html_table()
+
+sp_df = tibble(symbol = sp[[1]]$Symbol, founded = sp[[1]]$Founded)
+
+sp_df = sp_df |&gt; 
+  filter(str_detect(founded, pattern="^[0-9]{4}$")) |&gt; 
+  mutate(founded = as.numeric(founded)) |&gt; 
+  filter(founded &lt; 1997,
+         !symbol %in% c("BRK.B", "BF.B")) |&gt; 
+  mutate(founded = ymd(str_c(as.character(founded), "01", "01", sep="-")))
+
+sp_download = function(symbol, date) {
+  data = tq_get(x = symbol, 
+                from = date,
+                periodicity = "monthly")
+  
+}
+
+sp_data = map2_df(.x = sp_df$symbol, .y=sp_df$founded, .f = sp_download)
+
+sp_more_than_300 = sp_data |&gt; 
+  group_by(symbol) |&gt; 
+  mutate(count = n()) |&gt; 
+  filter(count &gt; 300) |&gt; 
+  select(-c(count))
+
+set.seed(444)
+
+symbols_50 = unique(sp_more_than_300$symbol)[sample(seq(1, 305), size=50, replace = FALSE)]
+
+sp_50 = sp_more_than_300 |&gt; 
+  filter(symbol %in% symbols_50) |&gt; 
+  select(symbol, date, adjusted) |&gt; 
+  rename(value = adjusted)</code></pre>
+</section><section id="performance-index" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="performance-index">
+<span class="header-section-number">1.2</span> Performance Index</h2>
+<pre class="<r>"><code>perf_index = c("^DJI", "^NYA", "^GSPC", "^IXIC", "^N225")
+
+df = tq_get(perf_index, from = "1947-01-01", periodicity = "monthly")
+
+df = df |&gt; select(symbol, date, adjusted) |&gt; rename(value = adjusted)</code></pre>
+</section><section id="electricity-generation" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="electricity-generation">
+<span class="header-section-number">1.3</span> Electricity Generation</h2>
+<pre class="<r>"><code>electricity = read_csv("data/total_generation.csv") |&gt; 
+  mutate(date = str_c(year, month, "01", sep = "-") |&gt;  ymd()) |&gt; 
+  select(c(date, symbol = state, value = generation_megawatt_hrs)) %&gt;% 
+  filter(!symbol %in% c("DC", "CT", "RI", "HI", "VT", "MS"))</code></pre>
+</section><section id="append-the-datasets" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="append-the-datasets">
+<span class="header-section-number">1.4</span> Append the datasets</h2>
+<pre class="<r>"><code>all_ts = bind_rows(sp_50, df, electricity) |&gt;  ungroup()</code></pre>
+</section></section><section id="data-preparation" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> Data Preparation</h1>
+<section id="missing-values-and-imputation" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="missing-values-and-imputation">
+<span class="header-section-number">2.1</span> Missing Values and Imputation</h2>
+<p>There were 23 missing values, all from the <code>^NYA</code> series. Therefore, I imputed the missing values using <code>na_locf()</code> from the <code>imputeTS</code> package and replaced the series with the imputed one.</p>
+<pre class="<r>"><code>missing = all_ts |&gt; filter(is.na(value))</code></pre>
+<pre class="<r>"><code>NYA = all_ts |&gt; 
+  filter(symbol == "^NYA") |&gt; 
+  tk_ts(select=value, start=c(1985, 1), frequency = 12) |&gt; 
+  na_locf() |&gt; 
+  tk_tbl(timetk_idx = T, rename_index="date") |&gt; 
+  mutate(symbol = "^NYA") |&gt; 
+  select(symbol, date, value)
+
+all_ts = all_ts |&gt; 
+  filter(symbol != "^NYA") |&gt; 
+  bind_rows(NYA)</code></pre>
+</section><section id="rolling" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="rolling">
+<span class="header-section-number">2.2</span> Rolling</h2>
+<pre class="<r>"><code>all_ts_adj = all_ts |&gt; 
+  group_by(symbol) |&gt; 
+  mutate(value = log(value),
+         start_date = min(date),
+         start = map2(lubridate::year(start_date), lubridate::month(start_date), c))
+
+all_ts_rolling = all_ts_adj |&gt; 
+  nest() |&gt; 
+  mutate(
+    initial_length = (map_dbl(.x = data, .f = nrow) * 0.95) |&gt;  ceiling(),
+    rolled = map2(.x = data, .y = initial_length,  .f = rsample::rolling_origin,  
+                  assess = 1, cumulative = TRUE) 
+  ) |&gt; 
+  unnest(rolled) |&gt; 
+  mutate(train_data = map(.x = splits, .f = rsample::analysis),
+         train_values = map(.x = train_data, .f = extract2, 'value'),
+         train_dates = map(.x = train_data, .f=extract2, 'date'),
+         ts_start = map(.x = train_data, .f = extract2, 'start') |&gt; map(.f = `[[`, 1),
+         
+         # testing data
+         target_data = map(.x = splits, .f = rsample::assessment),
+         target_date = map_dbl(.x = target_data, .f = magrittr::extract2, 'date') |&gt; as_date(),
+         target_value = map_dbl(.x = target_data, .f = magrittr::extract2, 'value')) |&gt; 
+  ungroup()</code></pre>
+</section></section><section id="define-functions" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> Define Functions</h1>
+<section id="get_fct" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="get_fct">
+<span class="header-section-number">3.1</span> get_fct</h2>
+<pre class="<r>"><code>get_fct = function(x, y) {
+  ts = tk_ts(x, start=y, frequency=12)
+  
+  ## Naive
+  naive_fct = forecast::naive(y = ts, h=1) |&gt; extract2('mean')
+  
+  ## Seasonal Naive
+  snaive_fct = forecast::snaive(y = ts, h=1) |&gt; extract2('mean')
+  
+  ## Holt Winter
+  hw_fct = forecast::hw(y = ts, h = 1, initial='simple') |&gt; magrittr::extract2('mean')
+  
+  ## Auto Arima
+  auto_arima_fct = auto.arima(y=ts) |&gt; forecast(h=1) |&gt; extract2('mean')
+  
+  results = list(naive_fct, snaive_fct, hw_fct, auto_arima_fct)
+  
+  return(results)
+}
+</code></pre>
+</section><section id="h2o_fct" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="h2o_fct">
+<span class="header-section-number">3.2</span> h2o_fct</h2>
+<pre class="<r>"><code>h2o_fct = function(train, test) {
+  
+  ### Augment features
+  aug_tbl = bind_rows(train, test) |&gt; 
+    select(-c(start_date, start)) |&gt; 
+    tk_augment_timeseries_signature() |&gt; 
+    ## remove date cols
+    select_if(~ !is.Date(.)) |&gt; 
+    ## remove cols that have missing values
+    select_if(~ !any(is.na(.))) |&gt; 
+    ## change ordered classes to plain factors
+    mutate_if(is.ordered, ~ as.character(.) |&gt; as.factor())
+  
+  train_tbl = aug_tbl[1:(nrow(aug_tbl)-1), ]
+  test_tbl = tail(aug_tbl, 1)
+  
+  h2o.init()
+  
+  ### Convert to H2OFrame objects
+  train_h2o &lt;- as.h2o(train_tbl)
+  test_h2o  &lt;- as.h2o(test_tbl)
+  
+  resp = "value"
+  features = setdiff(names(train_h2o), resp)
+  
+  automl_models_h2o = h2o.automl(
+    x = features, 
+    y = resp, 
+    training_frame = train_h2o,
+    max_models = 2, 
+    stopping_metric = "deviance")
+  
+  ### Extract leader model
+  model = automl_models_h2o@leader
+  
+  ### predict
+  h2o_fct = h2o.predict(model, newdata = test_h2o)
+  
+  return(h2o_fct[1,1][1])
+  
+}</code></pre>
+</section><section id="prophet_fct" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="prophet_fct">
+<span class="header-section-number">3.3</span> prophet_fct</h2>
+<pre class="<r>"><code>prophet_fct = function(train) {
+  df = train |&gt; 
+    select(-c(start_date, start)) |&gt; 
+    rename(ds = date, y=value) |&gt; 
+    tk_augment_timeseries_signature() |&gt; 
+    ## remove cols that have missing values
+    select_if(~ !any(is.na(.))) |&gt; 
+    ## change ordered classes to plain factors
+    mutate_if(is.ordered, ~ as.character(.) |&gt; as.factor())
+  
+  model = prophet(df)
+  
+  future &lt;- make_future_dataframe(model, periods = 1, freq='month')
+  
+  prophet_fct = predict(model, future)['yhat']|&gt; tail(1) |&gt; extract2('yhat')
+  
+  return(prophet_fct)
+  
+}</code></pre>
+</section></section><section id="apply-functions-to-100-time-seires" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> Apply functions to 100 time seires</h1>
+<pre class="<r>"><code>load('rolling_all_ts.RData')
+
+plan(multisession, workers = 40)
+
+
+results_df = all_ts_rolling |&gt; 
+  mutate(get_fct_results = future_map2(.x = train_values, .y=ts_start, .f = get_fct),
+         naive_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 1),
+         snaive_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 2),
+         hw_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 3),
+         auto_arima_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 4),
+         prophet_fct = future_map_dbl(.x= train_data, .f=prophet_fct),
+         h2o_fct = future_map2_dbl(.x = train_data, .y = target_data, .f = h2o_model)
+  )
+
+plan(sequential)</code></pre>
+</section><section id="summary" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Summary</h1>
+<section id="all-models-on-a-subset" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="all-models-on-a-subset">
+<span class="header-section-number">5.1</span> All models on a subset</h2>
+<p>Due to the unmatch of the available resources and specific configuration, I was not able to run the Holt Winters and h2o model successfully on the full dataset despite trying tryCatch(). Below is an overview of all models across a subset of 5 series:</p>
+<pre class="<r>"><code>metrics = results_df |&gt; 
+  select(c(symbol, target_value, naive_fct, snaive_fct, hw_fct, auto_arima_fct, prophet_fct, h2o_fct)) |&gt;
+  pivot_longer(
+    cols = dplyr::ends_with('_fct'),
+    names_to = 'method',
+    values_to = 'forecast'
+  ) |&gt;
+  group_by( symbol, method ) |&gt;
+  summarise(
+    rmse = forecast::accuracy(object = forecast, x = target_value) |&gt; magrittr::extract2(2),
+    mae = forecast::accuracy(object = forecast, x = target_value) |&gt; magrittr::extract2(3),
+    mape = forecast::accuracy(object = forecast, x = target_value) |&gt; magrittr::extract2(5)
+  )</code></pre>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-5322dc37339f4c84727b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-5322dc37339f4c84727b">{"x":{"filter":"none","vertical":false,"data":[["^DJI","^DJI","^DJI","^DJI","^DJI","^DJI","^GSPC","^GSPC","^GSPC","^GSPC","^GSPC","^GSPC","^IXIC","^IXIC","^IXIC","^IXIC","^IXIC","^IXIC","^N225","^N225","^N225","^N225","^N225","^N225","^NYA","^NYA","^NYA","^NYA","^NYA","^NYA"],["auto_arima_fct","h2o_fct","hw_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","h2o_fct","hw_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","h2o_fct","hw_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","h2o_fct","hw_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","h2o_fct","hw_fct","naive_fct","prophet_fct","snaive_fct"],[0.0549773947926936,0.142812223685814,0.0517866347196228,0.0543717353589038,0.0981246413924432,0.0905009639120832,0.0553667769796286,0.286264103694594,0.056037344348392,0.0546048730614513,0.123506056878219,0.175373665223956,0.0709546562697082,0.402530109437408,0.0708149571526312,0.0673032482982655,0.210644223934803,0.23159037342397,0.0400847315978594,0.319265935412597,0.04522744062272,0.0400847315978594,0.0492544314534834,0.099224571032127,0.00557345360252714,0.126303609358438,0.0204546618469626,0,0.0810084397788837,0.127099902701924],[0.0462414384953372,0.125193839667944,0.0429858175435491,0.0455056720334744,0.0869171536896708,0.0748442926823957,0.0472648380162455,0.262399712636361,0.0466705834644543,0.0469777496984752,0.113756042287472,0.148738657373944,0.0562999457230567,0.355263991168011,0.0531132129497279,0.0533662112866421,0.196345335944986,0.20385190215437,0.0342195906054029,0.314057062963396,0.0380726508732002,0.0342195906054029,0.0398931209045351,0.0746081530811703,0.00557285528787518,0.121405426223374,0.013724874920303,0,0.0664197876764393,0.0739713201206218],[0.444968204930328,1.20002571699951,0.413577274154058,0.437765175057857,0.836826910768974,0.719533280471033,0.568243962329994,3.13570196339491,0.5604179221164,0.564589663339354,1.36289664221205,1.77986363824316,0.598006816988666,3.73186434714651,0.563244875556026,0.566616898531943,2.08220405271674,2.15906724529377,0.334828268262293,3.06869501986972,0.37261587860937,0.334828268262293,0.390068147051487,0.728821715872804,0.0573600231983121,1.24959606967094,0.141266748041233,0,0.68364247143409,0.76136852994552]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Symbol<\/th>\n      <th>Method<\/th>\n      <th>RMSE<\/th>\n      <th>MAE<\/th>\n      <th>MAPE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+</div>
+</div>
+<p>And below is a summary of the number of datasets that each model top performed using each metrics (RMSE, MAE, MAPE)</p>
+<pre class="<r>"><code>model_summary = metrics |&gt; 
+  dplyr::group_by(symbol) |&gt; 
+  dplyr::mutate(
+    lowest_mape = dplyr::if_else(mape == min(mape), 1, 0),
+    lowest_rmse = dplyr::if_else(rmse == min(rmse), 1, 0),
+    lowest_mae = dplyr::if_else(mae == min(mae), 1, 0)) |&gt; 
+  dplyr::ungroup() |&gt; 
+  dplyr::group_by(method) |&gt; 
+  dplyr::summarise(avg_mape = mean(mape),
+                   avg_rmse = mean(rmse),
+                   avg_mae = mean(mae),
+                   won_times_mape = sum(lowest_mape),
+                   won_times_rmse = sum(lowest_rmse),
+                   won_times_mae = sum(lowest_mae)
+  )</code></pre>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c38d3ff54d628170c310" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c38d3ff54d628170c310">{"x":{"filter":"none","vertical":false,"data":[["auto_arima_fct","h2o_fct","hw_fct","naive_fct","prophet_fct","snaive_fct"],[0.400681455141918,2.47717662341632,0.410224539695417,0.380760001038289,1.07112764483667,1.22973088196526],[0.0453914026484834,0.25543519631777,0.0488642077380657,0.043272917663296,0.112507558687566,0.144757895258812],[0.0379197336255835,0.235664006531817,0.0389134279502469,0.0360138447247989,0.100666288100621,0.1152028650825],[1,0,3,2,0,0],[1,0,1,4,0,0],[1,0,3,2,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Method<\/th>\n      <th>Avg. MAPE<\/th>\n      <th>Avg. RMSE<\/th>\n      <th>Avg. MAE<\/th>\n      <th>Top by MAPE<\/th>\n      <th>Top by RMSE<\/th>\n      <th>Top by MAE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+</div>
+</div>
+</section><section id="models-on-full-dataset" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="models-on-full-dataset">
+<span class="header-section-number">5.2</span> 4 models on full dataset</h2>
+<section id="all-metrics-for-each-series" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="all-metrics-for-each-series">
+<span class="header-section-number">5.2.1</span> All metrics for each series</h3>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9a8d1c13e1299dfdccae" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9a8d1c13e1299dfdccae">{"x":{"filter":"none","vertical":false,"data":[["ADP","ADP","ADP","ADP","AFL","AFL","AFL","AFL","AIG","AIG","AIG","AIG","AK","AK","AK","AK","AL","AL","AL","AL","AMAT","AMAT","AMAT","AMAT","AMZN","AMZN","AMZN","AMZN","AR","AR","AR","AR","ATO","ATO","ATO","ATO","AVY","AVY","AVY","AVY","AZ","AZ","AZ","AZ","BBY","BBY","BBY","BBY","BRO","BRO","BRO","BRO","BWA","BWA","BWA","BWA","CA","CA","CA","CA","CAG","CAG","CAG","CAG","CAH","CAH","CAH","CAH","CB","CB","CB","CB","CHD","CHD","CHD","CHD","CHRW","CHRW","CHRW","CHRW","CO","CO","CO","CO","CPB","CPB","CPB","CPB","D","D","D","D","DE","DE","DE","DE","DRI","DRI","DRI","DRI","DVA","DVA","DVA","DVA","ETR","ETR","ETR","ETR","FITB","FITB","FITB","FITB","FL","FL","FL","FL","FRT","FRT","FRT","FRT","GA","GA","GA","GA","HD","HD","HD","HD","HES","HES","HES","HES","HON","HON","HON","HON","IA","IA","IA","IA","ID","ID","ID","ID","IL","IL","IL","IL","IN","IN","IN","IN","INCY","INCY","INCY","INCY","IRM","IRM","IRM","IRM","JCI","JCI","JCI","JCI","KS","KS","KS","KS","KY","KY","KY","KY","LA","LA","LA","LA","LNC","LNC","LNC","LNC","LNT","LNT","LNT","LNT","MA","MA","MA","MA","MAA","MAA","MAA","MAA","MD","MD","MD","MD","ME","ME","ME","ME","MGM","MGM","MGM","MGM","MHK","MHK","MHK","MHK","MI","MI","MI","MI","MN","MN","MN","MN","MO","MO","MO","MO","MS","MS","MS","MS","MT","MT","MT","MT","NC","NC","NC","NC","ND","ND","ND","ND","NE","NE","NE","NE","NH","NH","NH","NH","NJ","NJ","NJ","NJ","NM","NM","NM","NM","NV","NV","NV","NV","NY","NY","NY","NY","OH","OH","OH","OH","OK","OK","OK","OK","OR","OR","OR","OR","PA","PA","PA","PA","PCG","PCG","PCG","PCG","PGR","PGR","PGR","PGR","POOL","POOL","POOL","POOL","PPL","PPL","PPL","PPL","PSA","PSA","PSA","PSA","RJF","RJF","RJF","RJF","ROP","ROP","ROP","ROP","SC","SC","SC","SC","SD","SD","SD","SD","SEE","SEE","SEE","SEE","SYY","SYY","SYY","SYY","TJX","TJX","TJX","TJX","TN","TN","TN","TN","TSCO","TSCO","TSCO","TSCO","TT","TT","TT","TT","TX","TX","TX","TX","UHS","UHS","UHS","UHS","UNP","UNP","UNP","UNP","UT","UT","UT","UT","VA","VA","VA","VA","VLO","VLO","VLO","VLO","VMC","VMC","VMC","VMC","WA","WA","WA","WA","WI","WI","WI","WI","WV","WV","WV","WV","WY","WY","WY","WY","^DJI","^DJI","^DJI","^DJI","^GSPC","^GSPC","^GSPC","^GSPC","^IXIC","^IXIC","^IXIC","^IXIC","^N225","^N225","^N225","^N225","^NYA","^NYA","^NYA","^NYA"],["auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct","auto_arima_fct","naive_fct","prophet_fct","snaive_fct"],[0.0698201601209249,0.0739357735452353,0.0785180918835098,0.240566533200061,0.0652831248511125,0.0666920242415411,0.117986274201084,0.2753473517593,0.101104224739716,0.0885698033933643,0.143139607595045,0.345090110199012,0.0828817287305242,0.125687151734642,0.134478511830297,0.104291972680277,0.0608805436668791,0.0961405648986147,0.0642891442244345,0.102429048399388,0.111314665068027,0.11170805663054,0.314499173481308,0.484076056548941,0.144854627578657,0.131736550060219,0.645950526830408,0.400052662542189,0.0787575056870295,0.184857051938464,0.10597117928603,0.099391956017185,0.0624723163456693,0.0647899801409632,0.19470895500165,0.153918108945821,0.0806449910961594,0.0776582646221019,0.185416005064018,0.23841566493566,0.037153032903211,0.110138069536442,0.0581217820122016,0.0670110472820356,0.113019282268733,0.107482312672496,0.254070338530123,0.262034837705404,0.0653916591052991,0.0659498695030806,0.175158011106066,0.252061052483807,0.105118862119302,0.105085194649997,0.136424038984288,0.20331368398724,0.0358216653176396,0.0897476461049432,0.0516369959468174,0.065215226494183,0.0480633269953059,0.0490808760253451,0.10884052716477,0.104524448789091,0.0737805577631909,0.0756300167512889,0.245751971665649,0.268056432357977,0.063632197059849,0.0630852866278351,0.121430741456069,0.191289452940133,0.063088771381659,0.0622695118719127,0.17859370877192,0.133679578146638,0.0730968227869711,0.07326579481907,0.0757478308136271,0.129892259596041,0.0384781228136903,0.104736568846442,0.0473983133873385,0.0381729430737731,0.0482059239782998,0.0484068180945187,0.11687405178494,0.172524664778841,0.0676697924935786,0.0673107008856204,0.165052684424824,0.162053435098684,0.279060876950379,0.377920401764658,0.394305684571714,0.434816222622244,0.064042736552394,0.0660692185238928,0.132579033052667,0.130641602669309,0.0859828514479293,0.0780661259234223,0.202195319314595,0.289127054643168,0.0628153547712494,0.063021216692115,0.0661064837361528,0.121294840476686,0.102202198688306,0.0994821732065532,0.209007228406627,0.408586515696253,0.0434969105211177,0.104180345761612,0.03785732725551,0.0580281500151352,0.0785384768357297,0.0786812391415164,0.0994826955323632,0.304885865660512,0.0473495971358173,0.114921926723365,0.0500669085416024,0.0651518546461293,0.0699719024456435,0.0691757117346124,0.204948959017158,0.212832287081453,0.111245517877146,0.112287993735718,0.589321033975092,0.486222364856447,0.0712998607590249,0.0723218511347903,0.173211445934331,0.201303068600588,0.0673099986360591,0.0847987831291206,0.0856347676103371,0.112008516043241,0.136919490121894,0.177642677272268,0.184773200919812,0.158602176518415,0.0299177874502983,0.0809988196315048,0.0591185857716833,0.0585682160383997,0.12398285981443,0.131464020599082,0.11937072459343,0.150673931473238,0.0721137466136269,0.0721137466136269,0.274378726831532,0.112952850463636,0.0904874598248286,0.0905086745552303,0.259575409402586,0.240058157585888,0.0935822465377694,0.0915545154517496,0.22176316917926,0.330186020154389,0.100137201161265,0.118131696077878,0.11825783934193,0.133508559520574,0.101451976697885,0.151581259718298,0.0945063996483447,0.0968287892109087,0.0550501001269243,0.109599610996298,0.0588348933174855,0.0971548095394949,0.135745829554128,0.141098466112361,0.436860659201029,0.555836443757427,0.0595294810027835,0.0606337819472068,0.143887027766947,0.126073624543566,0.194889347988273,0.285197008430728,0.27686417592081,0.2176667159064,0.0668458623677032,0.0630891947072159,0.185211303486406,0.29873124248535,0.161769156974957,0.186925125845526,0.120990664428302,0.151272181756916,0.131623494248898,0.154232837545504,0.144263620662774,0.155103478659245,0.112728424049711,0.108777839935546,0.227639066656049,0.331501399786449,0.112516011357075,0.108689878153648,0.200667924246535,0.416814133482903,0.0727225342120089,0.121655692402493,0.087813835178661,0.09722344852962,0.0610892160715404,0.132441631756477,0.0785320237051988,0.0907761624094439,0.0842546564623599,0.150554319057246,0.0982251959193329,0.10120209107534,0.0855172413630368,0.0827367397145785,0.169957669365946,0.208957123691859,0.148691416577361,0.194376284906758,0.150829246644898,0.129534410777368,0.0574112761504627,0.147182461613995,0.0570780834740731,0.0694445328669312,0.0473088878954015,0.0843345082699217,0.0531020673388012,0.0823989135296351,0.0806331194580655,0.135592764739899,0.0976907194479448,0.138106403386367,0.180507604280219,0.177263208530947,0.160558217738389,0.192939909296033,0.0771811171067726,0.138215060759758,0.126735385610632,0.107252921481009,0.113018120956435,0.108476044072185,0.128452418458394,0.199469135143183,0.0488584999856001,0.0935280859977622,0.0627060430859098,0.0680441546254542,0.0569441665271994,0.115655050996756,0.0544660853463626,0.0551114438169441,0.0758064421986529,0.14861907474956,0.0850985420539552,0.110332258845594,0.0713774770679405,0.120095472680544,0.0643880657806493,0.11339039168259,0.057174531208139,0.131957313583861,0.0810573053811142,0.0730081030417906,0.0421963840580241,0.119167072885114,0.0637156239826635,0.054533465688368,0.0955256132856112,0.0908738848688028,0.365089079846794,0.196936337814409,0.0525061074017371,0.0554119135112334,0.0576058908346481,0.219664568598105,0.105716703042777,0.0951673494901071,0.360633448823596,0.32482771465494,0.070120387545914,0.0674670488920699,0.0771274993031196,0.0777258964759107,0.0712434482022596,0.0703432960684235,0.199780365604525,0.317094583173254,0.072774328271563,0.0740310939019314,0.225968358609534,0.373770055286107,0.0740713726249333,0.0725000081937738,0.227457013674266,0.121634479963197,0.0477910366198892,0.109311698927869,0.0510377193959747,0.0596008046990936,0.0684354062737671,0.100936946304516,0.15636036494368,0.15588552144754,0.0825230344125335,0.0810542162862571,0.159237622981926,0.338996906739906,0.0796599695078535,0.0765524752315379,0.118705934603804,0.181352305678125,0.0690978634259379,0.0709271305745165,0.148995104078964,0.162595948752495,0.0765182119125631,0.16120921637794,0.0798429350037257,0.0956702317938173,0.0756393248607587,0.0749389696013905,0.192797422682823,0.206568713024787,0.0796645120992687,0.0788676104256492,0.205290801237055,0.317268512004429,0.0512633244051563,0.101142848283776,0.0617788583104029,0.0875289790628445,0.116116708310877,0.117391345564428,0.212519863204667,0.252403851487161,0.077777176002396,0.07677982985571,0.150030200794485,0.176373189932912,0.0951793175318712,0.114190907676184,0.0893359506324872,0.117407817235876,0.0713223991033342,0.16850636536975,0.0904634187543559,0.101733467073051,0.11855260604203,0.113395018048744,0.230264612476458,0.466626085581074,0.0714415698038072,0.0717630396620535,0.138635638378965,0.220728144933955,0.0614314790678406,0.148123447763264,0.107127193348596,0.102578458107211,0.092899241160213,0.156417706135755,0.113010391203724,0.0906349309003238,0.160655306304836,0.26573787337592,0.165036351893708,0.200676896550413,0.0701123772270471,0.104355341865414,0.0924703403321299,0.101957358601976,0.0549773947926936,0.0543717353589038,0.0981246413924432,0.0905009639120832,0.0553667769796286,0.0546048730614513,0.123506056878219,0.175373665223956,0.0709546562697082,0.0673032482982655,0.210644223934803,0.23159037342397,0.0400847315978594,0.0400847315978594,0.0492544314534834,0.099224571032127,0.00557345360252714,0,0.0810084397788837,0.127099902701924],[0.0570766607659417,0.0579459451626868,0.0667429836004666,0.200844168280377,0.0554897452771963,0.0571898781864337,0.0966111413533961,0.236457965593863,0.0759816474060774,0.0663260314743774,0.117678152375686,0.273372319425746,0.0680202422003086,0.109503871918448,0.11446078781414,0.0911727000123467,0.0455916767348146,0.0750676199086439,0.0496912594620301,0.08111308280707,0.0883564454873831,0.0926618503531025,0.27258665367652,0.401662824504906,0.121385530435106,0.109050700639548,0.603462555471593,0.355078396875275,0.0595828631388345,0.162446212815772,0.0827522439572892,0.0847286032263471,0.0493215752791017,0.0524402011719372,0.16904785431384,0.125580367854741,0.0686944774766555,0.0651936515438174,0.175292474486671,0.189933317018115,0.0320035376962148,0.096443361317494,0.0439162950731183,0.057815742904819,0.0965160901678662,0.0879294733318927,0.224044299247328,0.200621433820724,0.0505014202082977,0.0531082285348481,0.148895146749055,0.217720496958411,0.0885131476448874,0.0867205242284479,0.109837548193535,0.179857016605423,0.0248007691883232,0.0792402661101734,0.0414963137593288,0.0572427119331704,0.0380412458522727,0.039285646231312,0.0929258366425866,0.0872213303410961,0.0590352733778487,0.0602596923642756,0.188799556815099,0.198314631871311,0.0495828608694294,0.0500782668819388,0.10740600478215,0.167930229512056,0.0489233411101543,0.0467152383041097,0.148090993309179,0.114440865210449,0.0579014345953002,0.0560274557244731,0.061518159838282,0.109883823710648,0.0334435340978658,0.0893744332880653,0.0409154744209253,0.0283150821199483,0.0376030635185948,0.0391973168129285,0.100748637180105,0.147413629621563,0.0500881433234068,0.051821572590807,0.123975665257942,0.127922215697416,0.238658065295542,0.305055445755643,0.358266358229266,0.34197676914669,0.0552198526406552,0.0561659784842917,0.108643979744534,0.11452826519532,0.0651398275107027,0.0564184867706016,0.180983702127356,0.260076799772506,0.0517829864896095,0.0509416699067238,0.0572593742593562,0.101054837438377,0.0743414505751686,0.0739402107363133,0.173314636680604,0.335978824503403,0.0385349413170697,0.0909680512363358,0.0334233954286508,0.046147826545776,0.0624740642624823,0.0649308442165992,0.0838914924917698,0.251541033839594,0.0423621384109579,0.0887334056275831,0.0397421787940162,0.0521956969337594,0.0551686240126734,0.0534524180686409,0.178512137821946,0.171498177167318,0.0913423187239903,0.0921749158445503,0.566098966447498,0.463606143291958,0.0574285802980159,0.0553082142755107,0.148447435399373,0.14962945702896,0.0569712814670233,0.0688117423791682,0.0691918520911787,0.0903295728917879,0.115624365002694,0.153307454678564,0.149065119538043,0.127537957130997,0.0234416016452738,0.0685136416533292,0.0513222897980583,0.0439686839975564,0.103508271939705,0.103305237478997,0.10140390395669,0.12707792157135,0.0596100668991255,0.0596100668991255,0.250692678697104,0.0991765470571947,0.074654671396392,0.0751153039811618,0.2479419258081,0.198645347533226,0.0806346302941075,0.0792114995949392,0.17648939493247,0.26341863673948,0.0895156425254596,0.0900278024747914,0.0983821332697821,0.120616819866432,0.0778856098321996,0.128667532744641,0.0828941372883616,0.0791459441015075,0.047018726285722,0.0922158951941959,0.046497820919009,0.0841899392662794,0.102250582188968,0.105435652018657,0.302752001536429,0.482827400036779,0.04904665912424,0.0497475075359061,0.122384967520457,0.108119354991059,0.16329884616,0.228293524075883,0.237023275097691,0.178419254076007,0.0572606160959954,0.0551432834798635,0.156971782194586,0.257616446340314,0.101568987971384,0.129267680892071,0.0944218958464638,0.130752519003886,0.102372822319702,0.127351583791472,0.121695482189027,0.126552417676113,0.0897522711715266,0.0867262396053981,0.187205137540882,0.254722136148981,0.0919994280341755,0.0926988129858655,0.175777290020487,0.387198242740058,0.0659022484333171,0.100938163966493,0.0747920701644477,0.0811626844616513,0.0436029809601303,0.116067320498441,0.0600341251654242,0.0684591422714468,0.0612774937756197,0.120172415549692,0.0871914263475413,0.0806192808194097,0.0742887530204862,0.0723821546569753,0.126858793160537,0.159240109699922,0.112646737766168,0.156203395579058,0.125791297346107,0.113759757297358,0.0463550147417527,0.132124514460719,0.0486983541067048,0.056635644957296,0.0357500408322141,0.0692014208711304,0.0418544164331817,0.0669083841895018,0.0644334557794538,0.102834968282552,0.0795852686615713,0.112982691769673,0.137092857199275,0.131538163934397,0.129283210587412,0.119705716122652,0.0655614525330204,0.109501523386865,0.109067941173292,0.0931414798144106,0.0934772607077917,0.0841930086585217,0.109434365888075,0.178145717725911,0.0400136295971329,0.0821228956398365,0.0538612682131468,0.0506375331865068,0.0422819822964091,0.0837312056104619,0.0427583156435064,0.0435796003412105,0.0571019688236196,0.126425883840141,0.0772449982676665,0.0966733093143904,0.055175853224149,0.10345368821984,0.0541724720053635,0.0968314934231917,0.0446797196520898,0.108985442590764,0.0684111193705199,0.0591999154668756,0.0318708813820681,0.0967210222593,0.0573946015047742,0.0430299128135732,0.076320729197763,0.0697678665081026,0.300120613373857,0.164235653695651,0.0474082582866111,0.0468477821074477,0.0465064185032038,0.199488193796003,0.086947420684966,0.0751798147106438,0.327801492546871,0.286619689731221,0.0561296433216348,0.0548591623586324,0.0627548911859688,0.0667396997118445,0.0606501450879931,0.0597135291000203,0.164563686784984,0.263062416987428,0.0554841006680712,0.0563027665837736,0.213565732370884,0.292978177881824,0.0591745651228359,0.0593799546426315,0.20587153880413,0.105010595675255,0.0401421847359622,0.0878606549193824,0.0422759005254937,0.0475913562242716,0.0553544559902831,0.0920428390296392,0.135812505217009,0.133865477852276,0.0697081662535342,0.0691078771261315,0.145169064285087,0.303970967589848,0.0615026732680182,0.0551321875760674,0.0945541409972526,0.138424751257315,0.0543050391157829,0.0569111480252255,0.11314014035883,0.143149300098261,0.0566699138720265,0.140364710106707,0.0631121526151742,0.0820882970151621,0.0536012559984519,0.0547699332530061,0.146842297388975,0.141019877174888,0.0659873181603532,0.0654180710678724,0.157346491521811,0.263750140649146,0.0395892108010841,0.0895478512460473,0.0500292755334864,0.0725576590216176,0.0956449633414583,0.0986925543441833,0.164831686952055,0.210658397447588,0.0581433128481968,0.0544922765320682,0.129141549775512,0.148681817451751,0.0771979034615617,0.0858044970827222,0.0779860341071203,0.0945137472628507,0.0541038524458428,0.138703340597369,0.062883705566997,0.066809748322531,0.0985102494689444,0.0973026998585707,0.193412176997569,0.435492814365259,0.0582707493809854,0.0590298331005474,0.113483975766785,0.171005821862622,0.048689590714591,0.131378798090274,0.0964917649232444,0.0891349856126337,0.0787851833221092,0.129226216283777,0.0899622160957039,0.0774758972780696,0.143793766789663,0.21986079843722,0.142476923960875,0.164674380447728,0.0597603806468104,0.0794443127078295,0.0866846932579033,0.0873870296822775,0.0462414384953372,0.0455056720334744,0.0869171536896708,0.0748442926823957,0.0472648380162455,0.0469777496984752,0.113756042287472,0.148738657373944,0.0562999457230567,0.0533662112866421,0.196345335944986,0.20385190215437,0.0342195906054029,0.0342195906054029,0.0398931209045351,0.0746081530811703,0.00557285528787518,0,0.0664197876764393,0.0739713201206218],[1.05781774698844,1.07240600919808,1.23683100885562,3.74211559903521,1.35917132920589,1.39829784290565,2.33237375045203,5.82766193632871,1.91203448827537,1.67005443287377,2.90499536104667,6.86744952860707,0.515183717860579,0.830604696425914,0.866240626516344,0.691505736060923,0.279850276871449,0.460831768476651,0.304560764478668,0.498083590911252,1.8906392473967,1.97722806218648,5.67985673612352,8.38840929960188,2.57599987349234,2.31100526588519,12.945035555801,7.64077380690069,0.386117690388609,1.05150614040652,0.531961827097973,0.548896939130658,1.05990574598259,1.12540078077148,3.68105070047856,2.67576029202421,1.3195146488798,1.25151343676043,3.37527899699646,3.62456325765864,0.20074908319454,0.604484901934385,0.275934925380664,0.362781426534139,2.20005293763374,2.00453842291692,5.11724384091591,4.65872459264367,1.22591675192563,1.28705194152597,3.6165872129742,5.27936942248811,2.42645875574541,2.37535551522056,2.94458487204387,4.89314337116997,0.148655976719938,0.476116406929762,0.248892439967453,0.344176008314938,1.08960914205173,1.12215055238215,2.67928692532845,2.47022586264631,1.44596157944461,1.47377926335463,4.46625599956945,4.68137639205499,0.937975090229082,0.946068464741862,2.01939586119805,3.16915478884569,1.09895083368511,1.04863878907684,3.35911724957377,2.56434059257048,1.262314375674,1.2190241989196,1.32904533854409,2.3739025868241,0.217681913732311,0.581091012379516,0.265575175096536,0.184067898322497,0.981928848389608,1.02071096869036,2.64741912581466,3.81402101042735,1.19168503725281,1.2305615160707,2.9988678325505,3.06288960137263,1.84276868004724,2.36600352124478,2.75551264613669,2.65304813319246,1.13351106077014,1.15047142807893,2.24947227494265,2.35021193962532,1.4586269070945,1.26588698228984,4.09302263529447,5.8874840290651,1.11561786561744,1.09679517924109,1.23330546421399,2.16243553850248,2.11264823501806,2.09749666561627,4.84087198663975,9.35661642647675,0.228674416605686,0.540551492255226,0.197924775699193,0.27354700039836,1.34671625823944,1.39837893258011,1.78692873248265,5.3561233389456,0.261978220275067,0.549620768201878,0.246045782398831,0.3234277166069,0.961023133057187,0.929421214875577,3.12581231905122,2.95902985831941,1.97420367001785,1.99106666736018,12.034352295483,10.022437979373,1.0885729116471,1.04923944991437,2.82925333163037,2.81887183138218,0.36491807610121,0.440922329289217,0.443002581118711,0.57857653938006,0.818539842994282,1.08321890804643,1.05440652084501,0.904233397389536,0.141654480594307,0.413790424462728,0.309815501321723,0.265625581887705,0.653130801836935,0.652075356483031,0.639649531849605,0.801763993647232,1.38148424853077,1.38148424853077,5.82167795669726,2.29490016131622,1.92674961057394,1.93680690468881,6.33567235136381,5.09610512440815,1.96939790827079,1.93177590479298,4.21788635529387,6.34570516944683,0.579788419431228,0.584599746184367,0.638514084258482,0.779483386172773,0.501958092171103,0.827835774592768,0.53390552882896,0.509935183298686,0.294465214402279,0.576424934600217,0.2908781142075,0.52736760906365,2.77613896203895,2.88875565955308,8.71966138253246,13.0611164003435,1.22275520461042,1.237991358023,3.06928849682006,2.68809632576802,1.13962432915698,1.59172081934937,1.64337629391362,1.24624795922096,1.1109572171579,1.06914078429927,3.02795520181367,4.97263235026903,0.685696427352519,0.871062473643259,0.635197996447319,0.878551491044628,0.743157214226456,0.925254018884539,0.88208030768261,0.918234527430004,2.47798007638637,2.40151462602042,5.02643941021454,6.97283170576308,1.91178206015275,1.93461358250344,3.72970276646655,8.15640396403196,0.410118544616059,0.628473696847919,0.464816278328208,0.505752712254181,0.282880467535889,0.751960146912272,0.38821475507084,0.442196351775958,0.392164262993155,0.766234391868866,0.556176220876386,0.51404251647526,1.67382587657298,1.62967740735383,2.82111494895075,3.56201547022502,0.773384954967248,1.07248529420221,0.857713728880783,0.777670967057608,0.28594968288548,0.815039400836339,0.300181629134788,0.34942744487123,0.235749819942557,0.457128551607349,0.276111873192582,0.441836287842748,0.429590517428451,0.687340821653761,0.53089267650617,0.753453918022364,0.963288430797995,0.92889150255847,0.907765849817363,0.842370543161474,0.424016117095155,0.706047989041339,0.70160291117818,0.601570586240854,0.621581129545423,0.561019985416203,0.727178197199738,1.18614447004514,0.265519394912053,0.54417045836569,0.358461264335146,0.336864880953532,0.262870760013899,0.518804898151124,0.265633277677072,0.270190326421059,0.352390265424551,0.780123049762627,0.47531126578367,0.595239823511564,0.350480505554555,0.654819815973671,0.343658671206271,0.613312476036839,0.289025996601596,0.705188506732406,0.442308344827174,0.381527969049722,0.189931876364008,0.576754597637237,0.342478798631006,0.256176856476987,3.08366129782132,2.83135178729225,11.9021332202147,6.29589431626107,1.00472646354845,0.990749376063953,0.993210644929578,4.17744652198962,1.46997024643905,1.27097233010327,5.61788304269559,4.89618171706705,1.70692372482967,1.6661938346504,1.91642824679033,2.01818629564726,1.05994697681802,1.04318499166078,2.8612572166009,4.58773650194872,1.20654944815672,1.22288525688053,4.64426608814581,6.42630547289935,0.979392766608391,0.982473398630876,3.40781061519942,1.73508320705733,0.252564007139305,0.552669038118627,0.266202724112574,0.299753996731656,0.387009006302189,0.64511955120727,0.949967753570983,0.936151989040971,1.75634281300657,1.7401011900818,3.62446127429855,7.52914935111105,1.41789245994576,1.26976996223149,2.18970066177759,3.18920611657592,1.29129429913604,1.35269661952809,2.7359349380807,3.37703093645007,0.360691630084043,0.894594790609389,0.403737234349672,0.524081522759838,1.00520195057511,1.02416668271645,2.72022654916519,2.61946789571032,1.29673104516942,1.2832023508198,3.06707994398053,5.13784611943709,0.225653317367314,0.509537376841953,0.284564141382927,0.412541038621124,1.99013427610189,2.05182163124317,3.48004585032237,4.37681069794538,1.08032470726345,1.0107869384269,2.41313504019713,2.75861725422171,0.516708819102381,0.573093379297254,0.521466125082928,0.632043241482701,0.343920839085051,0.879447861086366,0.399800023415313,0.426070730940661,2.15992486324885,2.13135353766805,4.13105345161255,9.48898667855792,1.13309424650129,1.14694414493988,2.2180199425402,3.30295008442191,0.302431721451668,0.816616078134046,0.597477961682457,0.551680301800696,0.512936081243512,0.836979550540183,0.586614780551843,0.504514037443681,0.941419333746101,1.43657577092879,0.933933620969457,1.07635319271386,0.394537242381046,0.524037319951511,0.572198055483772,0.577114386242338,0.444968204930328,0.437765175057857,0.836826910768974,0.719533280471033,0.568243962329994,0.564589663339354,1.36289664221205,1.77986363824316,0.598006816988666,0.566616898531943,2.08220405271674,2.15906724529377,0.334828268262293,0.334828268262293,0.390068147051487,0.728821715872804,0.0573600231983121,0,0.68364247143409,0.76136852994552]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Symbol<\/th>\n      <th>Method<\/th>\n      <th>RMSE<\/th>\n      <th>MAE<\/th>\n      <th>MAPE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+</div>
+</div>
+</section><section id="summary-of-top-performing-times-on-each-model" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="summary-of-top-performing-times-on-each-model">
+<span class="header-section-number">5.2.2</span> Summary of top performing times on each model</h3>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1865d6cab41281ac4630" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1865d6cab41281ac4630">{"x":{"filter":"none","vertical":false,"data":[["auto_arima_fct","naive_fct","prophet_fct","snaive_fct"],[0.990948540974325,1.11097625815405,2.27791872815386,2.75960089817571],[0.0824882919265308,0.106327419859511,0.153512854466747,0.186335957076105],[0.0664830868758059,0.0866937542830743,0.130581793374086,0.155303055211213],[59,33,7,3],[56,34,9,3],[59,32,8,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Method<\/th>\n      <th>Avg. MAPE<\/th>\n      <th>Avg. RMSE<\/th>\n      <th>Avg. MAE<\/th>\n      <th>Top by MAPE<\/th>\n      <th>Top by RMSE<\/th>\n      <th>Top by MAE<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+</div>
+</div>
+<!-- -->
+
+</section></section></section></main><!-- /main column --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "ISA 444 - Final Project"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Linh Tran"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: pygments</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">    paged-df: true</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'final_data.RData'</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'metrics_sub.RData'</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'model_summary_sub.RData'</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'metrics_full.RData'</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'model_summary_full.RData'</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rvest, tidyquant, lubridate, timetk,imputeTS, </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>               purrr, magrittr,forecast, rsample, h2o, prophet, furrr, DT)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Collection</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## S&amp;P 500</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="in">sp = read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies") |&gt; </span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="in">  html_elements("table") |&gt; </span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="in">  html_table()</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="in">sp_df = tibble(symbol = sp[[1]]$Symbol, founded = sp[[1]]$Founded)</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="in">sp_df = sp_df |&gt; </span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(str_detect(founded, pattern="^[0-9]{4}$")) |&gt; </span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(founded = as.numeric(founded)) |&gt; </span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(founded &lt; 1997,</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="in">         !symbol %in% c("BRK.B", "BF.B")) |&gt; </span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(founded = ymd(str_c(as.character(founded), "01", "01", sep="-")))</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="in">sp_download = function(symbol, date) {</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="in">  data = tq_get(x = symbol, </span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="in">                from = date,</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="in">                periodicity = "monthly")</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="in">sp_data = map2_df(.x = sp_df$symbol, .y=sp_df$founded, .f = sp_download)</span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="in">sp_more_than_300 = sp_data |&gt; </span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(symbol) |&gt; </span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(count = n()) |&gt; </span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(count &gt; 300) |&gt; </span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-c(count))</span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(444)</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="in">symbols_50 = unique(sp_more_than_300$symbol)[sample(seq(1, 305), size=50, replace = FALSE)]</span></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a><span class="in">sp_50 = sp_more_than_300 |&gt; </span></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(symbol %in% symbols_50) |&gt; </span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="in">  select(symbol, date, adjusted) |&gt; </span></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a><span class="in">  rename(value = adjusted)</span></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## Performance Index</span></span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a><span class="in">perf_index = c("^DJI", "^NYA", "^GSPC", "^IXIC", "^N225")</span></span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a><span class="in">df = tq_get(perf_index, from = "1947-01-01", periodicity = "monthly")</span></span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a><span class="in">df = df |&gt; select(symbol, date, adjusted) |&gt; rename(value = adjusted)</span></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a><span class="fu">## Electricity Generation</span></span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a><span class="in">electricity = read_csv("data/total_generation.csv") |&gt; </span></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(date = str_c(year, month, "01", sep = "-") |&gt;  ymd()) |&gt; </span></span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a><span class="in">  select(c(date, symbol = state, value = generation_megawatt_hrs)) %&gt;% </span></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(!symbol %in% c("DC", "CT", "RI", "HI", "VT", "MS"))</span></span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Append the datasets</span></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a><span class="in">all_ts = bind_rows(sp_50, df, electricity) |&gt;  ungroup()</span></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Preparation</span></span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Missing Values and Imputation</span></span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a>There were 23 missing values, all from the <span class="in">`^NYA`</span> series. Therefore, I imputed the missing values using <span class="in">`na_locf()`</span> from the <span class="in">`imputeTS`</span> package and replaced the series with the imputed one.</span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a><span class="in">missing = all_ts |&gt; filter(is.na(value))</span></span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a><span class="in">NYA = all_ts |&gt; </span></span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(symbol == "^NYA") |&gt; </span></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a><span class="in">  tk_ts(select=value, start=c(1985, 1), frequency = 12) |&gt; </span></span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a><span class="in">  na_locf() |&gt; </span></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a><span class="in">  tk_tbl(timetk_idx = T, rename_index="date") |&gt; </span></span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(symbol = "^NYA") |&gt; </span></span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a><span class="in">  select(symbol, date, value)</span></span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a><span class="in">all_ts = all_ts |&gt; </span></span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(symbol != "^NYA") |&gt; </span></span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a><span class="in">  bind_rows(NYA)</span></span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rolling</span></span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a><span class="in">all_ts_adj = all_ts |&gt; </span></span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(symbol) |&gt; </span></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(value = log(value),</span></span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a><span class="in">         start_date = min(date),</span></span>
+<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a><span class="in">         start = map2(lubridate::year(start_date), lubridate::month(start_date), c))</span></span>
+<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a><span class="in">all_ts_rolling = all_ts_adj |&gt; </span></span>
+<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a><span class="in">  nest() |&gt; </span></span>
+<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
+<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a><span class="in">    initial_length = (map_dbl(.x = data, .f = nrow) * 0.95) |&gt;  ceiling(),</span></span>
+<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a><span class="in">    rolled = map2(.x = data, .y = initial_length,  .f = rsample::rolling_origin,  </span></span>
+<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a><span class="in">                  assess = 1, cumulative = TRUE) </span></span>
+<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a><span class="in">  ) |&gt; </span></span>
+<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a><span class="in">  unnest(rolled) |&gt; </span></span>
+<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(train_data = map(.x = splits, .f = rsample::analysis),</span></span>
+<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a><span class="in">         train_values = map(.x = train_data, .f = extract2, 'value'),</span></span>
+<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a><span class="in">         train_dates = map(.x = train_data, .f=extract2, 'date'),</span></span>
+<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a><span class="in">         ts_start = map(.x = train_data, .f = extract2, 'start') |&gt; map(.f = `[[`, 1),</span></span>
+<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a><span class="in">         </span></span>
+<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a><span class="in">         # testing data</span></span>
+<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a><span class="in">         target_data = map(.x = splits, .f = rsample::assessment),</span></span>
+<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a><span class="in">         target_date = map_dbl(.x = target_data, .f = magrittr::extract2, 'date') |&gt; as_date(),</span></span>
+<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a><span class="in">         target_value = map_dbl(.x = target_data, .f = magrittr::extract2, 'value')) |&gt; </span></span>
+<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a><span class="in">  ungroup()</span></span>
+<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a><span class="fu"># Define Functions</span></span>
+<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## get_fct</span></span>
+<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a><span class="in">get_fct = function(x, y) {</span></span>
+<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a><span class="in">  ts = tk_ts(x, start=y, frequency=12)</span></span>
+<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a><span class="in">  ## Naive</span></span>
+<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a><span class="in">  naive_fct = forecast::naive(y = ts, h=1) |&gt; extract2('mean')</span></span>
+<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a><span class="in">  ## Seasonal Naive</span></span>
+<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a><span class="in">  snaive_fct = forecast::snaive(y = ts, h=1) |&gt; extract2('mean')</span></span>
+<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a><span class="in">  ## Holt Winter</span></span>
+<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a><span class="in">  hw_fct = forecast::hw(y = ts, h = 1, initial='simple') |&gt; magrittr::extract2('mean')</span></span>
+<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a><span class="in">  ## Auto Arima</span></span>
+<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a><span class="in">  auto_arima_fct = auto.arima(y=ts) |&gt; forecast(h=1) |&gt; extract2('mean')</span></span>
+<span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a><span class="in">  results = list(naive_fct, snaive_fct, hw_fct, auto_arima_fct)</span></span>
+<span id="cb14-172"><a href="#cb14-172" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a><span class="in">  return(results)</span></span>
+<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## h2o_fct</span></span>
+<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a><span class="in">h2o_fct = function(train, test) {</span></span>
+<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a><span class="in">  ### Augment features</span></span>
+<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a><span class="in">  aug_tbl = bind_rows(train, test) |&gt; </span></span>
+<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a><span class="in">    select(-c(start_date, start)) |&gt; </span></span>
+<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a><span class="in">    tk_augment_timeseries_signature() |&gt; </span></span>
+<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a><span class="in">    ## remove date cols</span></span>
+<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a><span class="in">    select_if(~ !is.Date(.)) |&gt; </span></span>
+<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a><span class="in">    ## remove cols that have missing values</span></span>
+<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a><span class="in">    select_if(~ !any(is.na(.))) |&gt; </span></span>
+<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a><span class="in">    ## change ordered classes to plain factors</span></span>
+<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a><span class="in">    mutate_if(is.ordered, ~ as.character(.) |&gt; as.factor())</span></span>
+<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a><span class="in">  train_tbl = aug_tbl[1:(nrow(aug_tbl)-1), ]</span></span>
+<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a><span class="in">  test_tbl = tail(aug_tbl, 1)</span></span>
+<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a><span class="in">  h2o.init()</span></span>
+<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a><span class="in">  ### Convert to H2OFrame objects</span></span>
+<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a><span class="in">  train_h2o &lt;- as.h2o(train_tbl)</span></span>
+<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a><span class="in">  test_h2o  &lt;- as.h2o(test_tbl)</span></span>
+<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-203"><a href="#cb14-203" aria-hidden="true" tabindex="-1"></a><span class="in">  resp = "value"</span></span>
+<span id="cb14-204"><a href="#cb14-204" aria-hidden="true" tabindex="-1"></a><span class="in">  features = setdiff(names(train_h2o), resp)</span></span>
+<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a><span class="in">  automl_models_h2o = h2o.automl(</span></span>
+<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a><span class="in">    x = features, </span></span>
+<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a><span class="in">    y = resp, </span></span>
+<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a><span class="in">    training_frame = train_h2o,</span></span>
+<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a><span class="in">    max_models = 2, </span></span>
+<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a><span class="in">    stopping_metric = "deviance")</span></span>
+<span id="cb14-212"><a href="#cb14-212" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a><span class="in">  ### Extract leader model</span></span>
+<span id="cb14-214"><a href="#cb14-214" aria-hidden="true" tabindex="-1"></a><span class="in">  model = automl_models_h2o@leader</span></span>
+<span id="cb14-215"><a href="#cb14-215" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a><span class="in">  ### predict</span></span>
+<span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a><span class="in">  h2o_fct = h2o.predict(model, newdata = test_h2o)</span></span>
+<span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a><span class="in">  return(h2o_fct[1,1][1])</span></span>
+<span id="cb14-220"><a href="#cb14-220" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-221"><a href="#cb14-221" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## prophet_fct</span></span>
+<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a><span class="in">prophet_fct = function(train) {</span></span>
+<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a><span class="in">  df = train |&gt; </span></span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a><span class="in">    select(-c(start_date, start)) |&gt; </span></span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a><span class="in">    rename(ds = date, y=value) |&gt; </span></span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a><span class="in">    tk_augment_timeseries_signature() |&gt; </span></span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a><span class="in">    ## remove cols that have missing values</span></span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a><span class="in">    select_if(~ !any(is.na(.))) |&gt; </span></span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a><span class="in">    ## change ordered classes to plain factors</span></span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a><span class="in">    mutate_if(is.ordered, ~ as.character(.) |&gt; as.factor())</span></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a><span class="in">  model = prophet(df)</span></span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a><span class="in">  future &lt;- make_future_dataframe(model, periods = 1, freq='month')</span></span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a><span class="in">  prophet_fct = predict(model, future)['yhat']|&gt; tail(1) |&gt; extract2('yhat')</span></span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a><span class="in">  return(prophet_fct)</span></span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a><span class="fu"># Apply functions to 100 time seires</span></span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a><span class="in">load('rolling_all_ts.RData')</span></span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a><span class="in">plan(multisession, workers = 40)</span></span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a><span class="in">results_df = all_ts_rolling |&gt; </span></span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(get_fct_results = future_map2(.x = train_values, .y=ts_start, .f = get_fct),</span></span>
+<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a><span class="in">         naive_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 1),</span></span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a><span class="in">         snaive_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 2),</span></span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a><span class="in">         hw_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 3),</span></span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a><span class="in">         auto_arima_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 4),</span></span>
+<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a><span class="in">         prophet_fct = future_map_dbl(.x= train_data, .f=prophet_fct),</span></span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="in">         h2o_fct = future_map2_dbl(.x = train_data, .y = target_data, .f = h2o_model)</span></span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a><span class="in">plan(sequential)</span></span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a><span class="fu">## All models on a subset</span></span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>Due to the unmatch of the available resources and specific configuration, I was not able to run the Holt Winters and h2o model successfully on the full dataset despite trying tryCatch(). Below is an overview of all models across a subset of 5 series:</span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a><span class="in">metrics = results_df |&gt; </span></span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a><span class="in">  select(c(symbol, target_value, naive_fct, snaive_fct, hw_fct, auto_arima_fct, prophet_fct, h2o_fct)) |&gt;</span></span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_longer(</span></span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a><span class="in">    cols = dplyr::ends_with('_fct'),</span></span>
+<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a><span class="in">    names_to = 'method',</span></span>
+<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a><span class="in">    values_to = 'forecast'</span></span>
+<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a><span class="in">  ) |&gt;</span></span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by( symbol, method ) |&gt;</span></span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(</span></span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a><span class="in">    rmse = forecast::accuracy(object = forecast, x = target_value) |&gt; magrittr::extract2(2),</span></span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a><span class="in">    mae = forecast::accuracy(object = forecast, x = target_value) |&gt; magrittr::extract2(3),</span></span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a><span class="in">    mape = forecast::accuracy(object = forecast, x = target_value) |&gt; magrittr::extract2(5)</span></span>
+<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(metrics, <span class="at">rownames =</span> F,</span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a>          <span class="at">colnames =</span> <span class="fu">c</span>(<span class="st">'Symbol'</span>, <span class="st">'Method'</span>, <span class="st">'RMSE'</span>, <span class="st">'MAE'</span>, <span class="st">'MAPE'</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'rmse'</span>,<span class="st">'mae'</span>,<span class="st">'mape'</span>), <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a>And below is a summary of the number of datasets that each model top performed using each metrics (RMSE, MAE, MAPE)</span>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a><span class="in">``` &lt;r&gt;</span></span>
+<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a><span class="in">model_summary = metrics |&gt; </span></span>
+<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a><span class="in">  dplyr::group_by(symbol) |&gt; </span></span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a><span class="in">  dplyr::mutate(</span></span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="in">    lowest_mape = dplyr::if_else(mape == min(mape), 1, 0),</span></span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a><span class="in">    lowest_rmse = dplyr::if_else(rmse == min(rmse), 1, 0),</span></span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="in">    lowest_mae = dplyr::if_else(mae == min(mae), 1, 0)) |&gt; </span></span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a><span class="in">  dplyr::ungroup() |&gt; </span></span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a><span class="in">  dplyr::group_by(method) |&gt; </span></span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a><span class="in">  dplyr::summarise(avg_mape = mean(mape),</span></span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a><span class="in">                   avg_rmse = mean(rmse),</span></span>
+<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a><span class="in">                   avg_mae = mean(mae),</span></span>
+<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a><span class="in">                   won_times_mape = sum(lowest_mape),</span></span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a><span class="in">                   won_times_rmse = sum(lowest_rmse),</span></span>
+<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a><span class="in">                   won_times_mae = sum(lowest_mae)</span></span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(model_summary, <span class="at">rownames =</span> F,</span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>          <span class="at">colnames =</span> <span class="fu">c</span>(<span class="st">"Method"</span>, <span class="st">"Avg. MAPE"</span>, <span class="st">"Avg. RMSE"</span>, <span class="st">"Avg. MAE"</span>, <span class="st">"Top by MAPE"</span>, <span class="st">"Top by RMSE"</span>, <span class="st">"Top by MAE"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a>   <span class="fu">formatRound</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'avg_rmse'</span>,<span class="st">'avg_mae'</span>,<span class="st">'avg_mape'</span>), <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4 models on full dataset</span></span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a><span class="fu">### All metrics for each series</span></span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(metrics_full, <span class="at">rownames =</span> F,</span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a>          <span class="at">colnames =</span> <span class="fu">c</span>(<span class="st">'Symbol'</span>, <span class="st">'Method'</span>, <span class="st">'RMSE'</span>, <span class="st">'MAE'</span>, <span class="st">'MAPE'</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatRound</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'rmse'</span>,<span class="st">'mae'</span>,<span class="st">'mape'</span>), <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary of top performing times on each model</span></span>
+<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(model_summary_full, <span class="at">rownames =</span> F,</span>
+<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a>          <span class="at">colnames =</span> <span class="fu">c</span>(<span class="st">"Method"</span>, <span class="st">"Avg. MAPE"</span>, <span class="st">"Avg. RMSE"</span>, <span class="st">"Avg. MAE"</span>, <span class="st">"Top by MAPE"</span>, <span class="st">"Top by RMSE"</span>, <span class="st">"Top by MAE"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a>   <span class="fu">formatRound</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'avg_rmse'</span>,<span class="st">'avg_mae'</span>,<span class="st">'avg_mape'</span>), <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

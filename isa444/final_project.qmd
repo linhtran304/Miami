@@ -1,0 +1,344 @@
+---
+title: "ISA 444 - Final Project"
+author: "Linh Tran"
+format: 
+  html:
+    code-fold: false
+    code-tools: true
+    code-link: true
+    highlight-style: pygments
+    number-sections: true
+    paged-df: true
+    toc: true
+    toc-float: true
+    code-overflow: wrap
+editor: visual
+---
+
+```{r setup, include=FALSE}
+load('final_data.RData')
+load('metrics_sub.RData')
+load('model_summary_sub.RData')
+load('metrics_full.RData')
+load('model_summary_full.RData')
+
+pacman::p_load(tidyverse, rvest, tidyquant, lubridate, timetk,imputeTS, 
+               purrr, magrittr,forecast, rsample, h2o, prophet, furrr, DT)
+
+```
+
+# Data Collection
+
+## S&P 500
+
+``` <r>
+sp = read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies") |> 
+  html_elements("table") |> 
+  html_table()
+
+sp_df = tibble(symbol = sp[[1]]$Symbol, founded = sp[[1]]$Founded)
+
+sp_df = sp_df |> 
+  filter(str_detect(founded, pattern="^[0-9]{4}$")) |> 
+  mutate(founded = as.numeric(founded)) |> 
+  filter(founded < 1997,
+         !symbol %in% c("BRK.B", "BF.B")) |> 
+  mutate(founded = ymd(str_c(as.character(founded), "01", "01", sep="-")))
+
+sp_download = function(symbol, date) {
+  data = tq_get(x = symbol, 
+                from = date,
+                periodicity = "monthly")
+  
+}
+
+sp_data = map2_df(.x = sp_df$symbol, .y=sp_df$founded, .f = sp_download)
+
+sp_more_than_300 = sp_data |> 
+  group_by(symbol) |> 
+  mutate(count = n()) |> 
+  filter(count > 300) |> 
+  select(-c(count))
+
+set.seed(444)
+
+symbols_50 = unique(sp_more_than_300$symbol)[sample(seq(1, 305), size=50, replace = FALSE)]
+
+sp_50 = sp_more_than_300 |> 
+  filter(symbol %in% symbols_50) |> 
+  select(symbol, date, adjusted) |> 
+  rename(value = adjusted)
+```
+
+## Performance Index
+
+``` <r>
+perf_index = c("^DJI", "^NYA", "^GSPC", "^IXIC", "^N225")
+
+df = tq_get(perf_index, from = "1947-01-01", periodicity = "monthly")
+
+df = df |> select(symbol, date, adjusted) |> rename(value = adjusted)
+```
+
+## Electricity Generation
+
+``` <r>
+electricity = read_csv("data/total_generation.csv") |> 
+  mutate(date = str_c(year, month, "01", sep = "-") |>  ymd()) |> 
+  select(c(date, symbol = state, value = generation_megawatt_hrs)) %>% 
+  filter(!symbol %in% c("DC", "CT", "RI", "HI", "VT", "MS"))
+```
+
+## Append the datasets
+
+``` <r>
+all_ts = bind_rows(sp_50, df, electricity) |>  ungroup()
+```
+
+# Data Preparation
+
+## Missing Values and Imputation
+
+There were 23 missing values, all from the `^NYA` series. Therefore, I imputed the missing values using `na_locf()` from the `imputeTS` package and replaced the series with the imputed one.
+
+``` <r>
+missing = all_ts |> filter(is.na(value))
+```
+
+``` <r>
+NYA = all_ts |> 
+  filter(symbol == "^NYA") |> 
+  tk_ts(select=value, start=c(1985, 1), frequency = 12) |> 
+  na_locf() |> 
+  tk_tbl(timetk_idx = T, rename_index="date") |> 
+  mutate(symbol = "^NYA") |> 
+  select(symbol, date, value)
+
+all_ts = all_ts |> 
+  filter(symbol != "^NYA") |> 
+  bind_rows(NYA)
+```
+
+## Rolling
+
+``` <r>
+all_ts_adj = all_ts |> 
+  group_by(symbol) |> 
+  mutate(value = log(value),
+         start_date = min(date),
+         start = map2(lubridate::year(start_date), lubridate::month(start_date), c))
+
+all_ts_rolling = all_ts_adj |> 
+  nest() |> 
+  mutate(
+    initial_length = (map_dbl(.x = data, .f = nrow) * 0.95) |>  ceiling(),
+    rolled = map2(.x = data, .y = initial_length,  .f = rsample::rolling_origin,  
+                  assess = 1, cumulative = TRUE) 
+  ) |> 
+  unnest(rolled) |> 
+  mutate(train_data = map(.x = splits, .f = rsample::analysis),
+         train_values = map(.x = train_data, .f = extract2, 'value'),
+         train_dates = map(.x = train_data, .f=extract2, 'date'),
+         ts_start = map(.x = train_data, .f = extract2, 'start') |> map(.f = `[[`, 1),
+         
+         # testing data
+         target_data = map(.x = splits, .f = rsample::assessment),
+         target_date = map_dbl(.x = target_data, .f = magrittr::extract2, 'date') |> as_date(),
+         target_value = map_dbl(.x = target_data, .f = magrittr::extract2, 'value')) |> 
+  ungroup()
+```
+
+# Define Functions
+
+## get_fct
+
+``` <r>
+get_fct = function(x, y) {
+  ts = tk_ts(x, start=y, frequency=12)
+  
+  ## Naive
+  naive_fct = forecast::naive(y = ts, h=1) |> extract2('mean')
+  
+  ## Seasonal Naive
+  snaive_fct = forecast::snaive(y = ts, h=1) |> extract2('mean')
+  
+  ## Holt Winter
+  hw_fct = forecast::hw(y = ts, h = 1, initial='simple') |> magrittr::extract2('mean')
+  
+  ## Auto Arima
+  auto_arima_fct = auto.arima(y=ts) |> forecast(h=1) |> extract2('mean')
+  
+  results = list(naive_fct, snaive_fct, hw_fct, auto_arima_fct)
+  
+  return(results)
+}
+
+```
+
+## h2o_fct
+
+``` <r>
+h2o_fct = function(train, test) {
+  
+  ### Augment features
+  aug_tbl = bind_rows(train, test) |> 
+    select(-c(start_date, start)) |> 
+    tk_augment_timeseries_signature() |> 
+    ## remove date cols
+    select_if(~ !is.Date(.)) |> 
+    ## remove cols that have missing values
+    select_if(~ !any(is.na(.))) |> 
+    ## change ordered classes to plain factors
+    mutate_if(is.ordered, ~ as.character(.) |> as.factor())
+  
+  train_tbl = aug_tbl[1:(nrow(aug_tbl)-1), ]
+  test_tbl = tail(aug_tbl, 1)
+  
+  h2o.init()
+  
+  ### Convert to H2OFrame objects
+  train_h2o <- as.h2o(train_tbl)
+  test_h2o  <- as.h2o(test_tbl)
+  
+  resp = "value"
+  features = setdiff(names(train_h2o), resp)
+  
+  automl_models_h2o = h2o.automl(
+    x = features, 
+    y = resp, 
+    training_frame = train_h2o,
+    max_models = 2, 
+    stopping_metric = "deviance")
+  
+  ### Extract leader model
+  model = automl_models_h2o@leader
+  
+  ### predict
+  h2o_fct = h2o.predict(model, newdata = test_h2o)
+  
+  return(h2o_fct[1,1][1])
+  
+}
+```
+
+## prophet_fct
+
+``` <r>
+prophet_fct = function(train) {
+  df = train |> 
+    select(-c(start_date, start)) |> 
+    rename(ds = date, y=value) |> 
+    tk_augment_timeseries_signature() |> 
+    ## remove cols that have missing values
+    select_if(~ !any(is.na(.))) |> 
+    ## change ordered classes to plain factors
+    mutate_if(is.ordered, ~ as.character(.) |> as.factor())
+  
+  model = prophet(df)
+  
+  future <- make_future_dataframe(model, periods = 1, freq='month')
+  
+  prophet_fct = predict(model, future)['yhat']|> tail(1) |> extract2('yhat')
+  
+  return(prophet_fct)
+  
+}
+```
+
+# Apply functions to 100 time seires
+
+``` <r>
+load('rolling_all_ts.RData')
+
+plan(multisession, workers = 40)
+
+
+results_df = all_ts_rolling |> 
+  mutate(get_fct_results = future_map2(.x = train_values, .y=ts_start, .f = get_fct),
+         naive_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 1),
+         snaive_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 2),
+         hw_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 3),
+         auto_arima_fct = future_map_dbl(.x = get_fct_results, .f = extract2, 4),
+         prophet_fct = future_map_dbl(.x= train_data, .f=prophet_fct),
+         h2o_fct = future_map2_dbl(.x = train_data, .y = target_data, .f = h2o_model)
+  )
+
+plan(sequential)
+```
+
+# Summary
+
+## All models on a subset
+
+Due to the unmatch of the available resources and specific configuration, I was not able to run the Holt Winters and h2o model successfully on the full dataset despite trying tryCatch(). Below is an overview of all models across a subset of 5 series:
+
+``` <r>
+metrics = results_df |> 
+  select(c(symbol, target_value, naive_fct, snaive_fct, hw_fct, auto_arima_fct, prophet_fct, h2o_fct)) |>
+  pivot_longer(
+    cols = dplyr::ends_with('_fct'),
+    names_to = 'method',
+    values_to = 'forecast'
+  ) |>
+  group_by( symbol, method ) |>
+  summarise(
+    rmse = forecast::accuracy(object = forecast, x = target_value) |> magrittr::extract2(2),
+    mae = forecast::accuracy(object = forecast, x = target_value) |> magrittr::extract2(3),
+    mape = forecast::accuracy(object = forecast, x = target_value) |> magrittr::extract2(5)
+  )
+```
+
+```{r}
+#| echo: false
+datatable(metrics, rownames = F,
+          colnames = c('Symbol', 'Method', 'RMSE', 'MAE', 'MAPE')) |> 
+  formatRound(columns = c('rmse','mae','mape'), digits=3)
+
+```
+
+And below is a summary of the number of datasets that each model top performed using each metrics (RMSE, MAE, MAPE)
+
+``` <r>
+model_summary = metrics |> 
+  dplyr::group_by(symbol) |> 
+  dplyr::mutate(
+    lowest_mape = dplyr::if_else(mape == min(mape), 1, 0),
+    lowest_rmse = dplyr::if_else(rmse == min(rmse), 1, 0),
+    lowest_mae = dplyr::if_else(mae == min(mae), 1, 0)) |> 
+  dplyr::ungroup() |> 
+  dplyr::group_by(method) |> 
+  dplyr::summarise(avg_mape = mean(mape),
+                   avg_rmse = mean(rmse),
+                   avg_mae = mean(mae),
+                   won_times_mape = sum(lowest_mape),
+                   won_times_rmse = sum(lowest_rmse),
+                   won_times_mae = sum(lowest_mae)
+  )
+```
+
+```{r}
+#| echo: false
+datatable(model_summary, rownames = F,
+          colnames = c("Method", "Avg. MAPE", "Avg. RMSE", "Avg. MAE", "Top by MAPE", "Top by RMSE", "Top by MAE")) |> 
+   formatRound(columns = c('avg_rmse','avg_mae','avg_mape'), digits=3)
+```
+
+## 4 models on full dataset
+
+### All metrics for each series
+
+```{r}
+#| echo: false
+datatable(metrics_full, rownames = F,
+          colnames = c('Symbol', 'Method', 'RMSE', 'MAE', 'MAPE')) |> 
+  formatRound(columns = c('rmse','mae','mape'), digits=3)
+```
+
+### Summary of top performing times on each model
+
+```{r}
+#| echo: false
+datatable(model_summary_full, rownames = F,
+          colnames = c("Method", "Avg. MAPE", "Avg. RMSE", "Avg. MAE", "Top by MAPE", "Top by RMSE", "Top by MAE")) |> 
+   formatRound(columns = c('avg_rmse','avg_mae','avg_mape'), digits=3)
+```
