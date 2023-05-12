@@ -31,7 +31,7 @@ pacman::p_load(tidyverse, rvest, tidyquant, lubridate, timetk,imputeTS,
 
 ## S&P 500
 
-``` <r>
+``` r
 sp = read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies") |> 
   html_elements("table") |> 
   html_table()
@@ -72,7 +72,7 @@ sp_50 = sp_more_than_300 |>
 
 ## Performance Index
 
-``` <r>
+``` r
 perf_index = c("^DJI", "^NYA", "^GSPC", "^IXIC", "^N225")
 
 df = tq_get(perf_index, from = "1947-01-01", periodicity = "monthly")
@@ -82,7 +82,7 @@ df = df |> select(symbol, date, adjusted) |> rename(value = adjusted)
 
 ## Electricity Generation
 
-``` <r>
+``` r
 electricity = read_csv("data/total_generation.csv") |> 
   mutate(date = str_c(year, month, "01", sep = "-") |>  ymd()) |> 
   select(c(date, symbol = state, value = generation_megawatt_hrs)) %>% 
@@ -91,7 +91,7 @@ electricity = read_csv("data/total_generation.csv") |>
 
 ## Append the datasets
 
-``` <r>
+``` r
 all_ts = bind_rows(sp_50, df, electricity) |>  ungroup()
 ```
 
@@ -101,11 +101,11 @@ all_ts = bind_rows(sp_50, df, electricity) |>  ungroup()
 
 There were 23 missing values, all from the `^NYA` series. Therefore, I imputed the missing values using `na_locf()` from the `imputeTS` package and replaced the series with the imputed one.
 
-``` <r>
+``` r
 missing = all_ts |> filter(is.na(value))
 ```
 
-``` <r>
+``` r
 NYA = all_ts |> 
   filter(symbol == "^NYA") |> 
   tk_ts(select=value, start=c(1985, 1), frequency = 12) |> 
@@ -121,7 +121,7 @@ all_ts = all_ts |>
 
 ## Rolling
 
-``` <r>
+``` r
 all_ts_adj = all_ts |> 
   group_by(symbol) |> 
   mutate(value = log(value),
@@ -152,7 +152,7 @@ all_ts_rolling = all_ts_adj |>
 
 ## get_fct
 
-``` <r>
+``` r
 get_fct = function(x, y) {
   ts = tk_ts(x, start=y, frequency=12)
   
@@ -172,12 +172,11 @@ get_fct = function(x, y) {
   
   return(results)
 }
-
 ```
 
 ## h2o_fct
 
-``` <r>
+``` r
 h2o_fct = function(train, test) {
   
   ### Augment features
@@ -223,7 +222,7 @@ h2o_fct = function(train, test) {
 
 ## prophet_fct
 
-``` <r>
+``` r
 prophet_fct = function(train) {
   df = train |> 
     select(-c(start_date, start)) |> 
@@ -247,7 +246,7 @@ prophet_fct = function(train) {
 
 # Apply functions to 100 time seires
 
-``` <r>
+``` r
 load('rolling_all_ts.RData')
 
 plan(multisession, workers = 40)
@@ -272,7 +271,7 @@ plan(sequential)
 
 Due to the unmatch of the available resources and specific configuration, I was not able to run the Holt Winters and h2o model successfully on the full dataset despite trying tryCatch(). Below is an overview of all models across a subset of 5 series:
 
-``` <r>
+``` r
 metrics = results_df |> 
   select(c(symbol, target_value, naive_fct, snaive_fct, hw_fct, auto_arima_fct, prophet_fct, h2o_fct)) |>
   pivot_longer(
@@ -298,7 +297,7 @@ datatable(metrics, rownames = F,
 
 And below is a summary of the number of datasets that each model top performed using each metrics (RMSE, MAE, MAPE)
 
-``` <r>
+``` r
 model_summary = metrics |> 
   dplyr::group_by(symbol) |> 
   dplyr::mutate(
