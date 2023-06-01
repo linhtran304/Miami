@@ -42,7 +42,7 @@ community_crime = community_crime |>
            factor(levels = c("Low", "Mid", "High")))
 
 ## Map
-community_area = readOGR("solo_data/community_area/geo_export_3a996a9c-aac7-4e1b-b539-88ee00463388.shp")
+community_area = readOGR("data/community_area/geo_export_3a996a9c-aac7-4e1b-b539-88ee00463388.shp")
 
 comm_area = tidy(community_area)
 temp_area = community_area@data
@@ -54,9 +54,9 @@ comm_area = left_join(comm_area, temp_area, by="id")
 
 comm_map = left_join(comm_area, community_crime, by=c("area_numbe" = "Community Area"))
 
-#### Central Business District Boundary
+## Central Business District Boundary
 
-central_map = readOGR("solo_data/central_business_dist/geo_export_f6ac6bcc-d2b0-44e2-bb2e-70143a3bef18.shp")
+central_map = readOGR("data/central_business_dist/geo_export_f6ac6bcc-d2b0-44e2-bb2e-70143a3bef18.shp")
 ```
 
 ## Introduction
