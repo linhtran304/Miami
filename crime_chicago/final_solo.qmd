@@ -1,26 +1,40 @@
 ---
-title: "Graffitis vs. Crimes"
-subtitle: "Exploring the relationship between Graffiti Removal and Crime Rates in the City of Chicago"
+title: "Graffiti Impact on Crimes"
+subtitle: "An explanatory analysis on the relationship between Graffiti Removal and Crime Rates in the City of Chicago"
+author: "Linh Tran"
+date: last-modified
 format: 
   html:
-    code-fold: false
+    code-fold: true
     code-tools: true
     code-link: true
-    highlight-style: pygments
-    number-sections: true
+    highlight-style: github
     paged-df: true
     toc: true
     toc-float: true
     code-overflow: wrap
+    fig-width: 7
+    fig-height: 5
+    fig-cap-location: top
+  pdf:
+    documentclass: report
+    toc: true
+    code-overflow: wrap
+    highlight-style: github
+    fig-width: 7
+    fig-height: 5
+    fig-cap-location: top
+
+execute:
+  warning: false
+  message: false
+  tidy: true
 editor: visual
 ---
 
 ```{r}
 #| label: setup
 #| include: false
-#| warning: false
-#| message: false
-#| tidy: true
 
 ## Load required packages
 if(require(pacman)==F) install.packages('pacman')
@@ -61,7 +75,7 @@ central_map = readOGR("data/central_business_dist/geo_export_f6ac6bcc-d2b0-44e2-
 
 ## Introduction
 
-The City of Chicago, with a population of about 2.7 million people, is one of the most popular cities in the United States, known for its vibrant and diverse neighborhoods (Data USA, 2020). However, Chicago has also gained attention for its crime rate, which has been a persistent challenge for the city. The issue of crime in Chicago has been a complex and multifaceted challenge, with various factors contributing to its prevalence. Graffiti has been an agonizing issue in urban areas, posing challenges to cities in terms of aesthetics, safety, and community well-being. As a result, I have conducted an analysis to study the relationship between graffiti removal and the crime rate in the City of Chicago, focusing specifically on criminal crimes and the years from 2016 to 2018 (most recent pre-COVID time to attain an understanding of the situation in normal circumstances).
+The City of Chicago, with a population of about 2.7 million people, is one of the most popular cities in the United States, known for its vibrant and diverse neighborhoods (Data USA, 2020). However, Chicago has also gained attention for its crime rate, which has been a persistent challenge for the city. The issue of crime in Chicago has been a complex and multifaceted challenge, with various factors contributing to its prevalence. Graffiti has been an agonizing issue in urban areas, posing challenges to cities in terms of aesthetics, safety, and community well-being. As a result, I have conducted an analysis to study the relationship between graffiti removal and the crime rate in the City of Chicago, focusing specifically on **criminal crimes** and the years from **2016 to 2018** (most recent pre-COVID time to attain an understanding of the situation in normal circumstances).
 
 This report aims to provide insights into the potential linkages between graffiti removal efforts and crime rates in Chicago. By analyzing and interpreting relevant data, we can gain a better understanding of how graffiti removal efforts may impact crime rates and inform strategies for addressing this issue in the city. This report will delve into the data findings, highlighting patterns and trends, and drawing evidence-based conclusions to shed light on the relationship between graffiti removal and crime rate in the City of Chicago.
 
@@ -69,23 +83,17 @@ This report aims to provide insights into the potential linkages between graffit
 
 ### A quick glance
 
-The graph below is a side-by-side comparison of the crime rate and graffiti removal request rate in 77 community areas of Chicago.
+The graph below is a side-by-side comparison of the average crime rate and graffiti removal request rate in the 77 community areas of Chicago.
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| tidy: true
-
-
+#| fig-cap: "Figure 1: Quick glance at Chicago’s 77 community areas"
 p1 = ggplot() +
   geom_polygon(data=comm_map, mapping=aes(x=long, y=lat, group=group, fill=avg_crime_rate)) +
   geom_path(data=comm_map, mapping=aes(x=long, y=lat, group=group), color="gray90",linewidth=0.2) +
-  scale_fill_gradient(low="#BBFCF1", high="#122C69",
+  scale_fill_gradient(low="#ffffb2", high="#bd0026",
                       name="Reported Incidents\nper 100 Residents",
                       limits=c(0,40),
                       breaks=c(0,10,20,30,40)) +
-  theme(legend.position="top") +
   geom_path(data=central_map, mapping=aes(x=long, y=lat, group=group), color='grey50')+
   coord_quickmap() +
   theme_map() +
@@ -97,9 +105,12 @@ p1 = ggplot() +
            curvature = .3, arrow=arrow(length=unit(1,"mm")), color='grey50') +
   annotate(geom="text",x=-87.9, y=41.93, label = "Chicago O'Hare\nInternational Airport",
            size = 2.5, color='grey30') +
+  guides(fill = guide_colourbar(barwidth = 1, barheight=8))+
   labs(title="Average Criminal Crime Rate\nin 2016-2018 by Community Area in Chicago") +
-  theme(legend.position=c(0.05,0.3), 
+  theme(legend.position=c(0.05,0.15), 
         legend.background = element_rect(fill="transparent"),
+        legend.title = element_text(size=8, vjust=1.05, color='grey30'),
+        legend.text = element_text(color='grey40'),
         plot.title = element_text(size=10))
 
 
@@ -110,7 +121,6 @@ p2 = ggplot() +
                       name="Number of Requests\nper 100 Residents",
                       limits=c(0,80),
                       breaks=c(0,20,40,60,80)) +
-  theme(legend.position="top") +
   geom_path(data=central_map, mapping=aes(x=long, y=lat, group=group), color='grey60')+
   coord_quickmap() +
   theme_map() +
@@ -122,14 +132,17 @@ p2 = ggplot() +
            curvature = .3, arrow=arrow(length=unit(1,"mm")), color='grey50') +
   annotate(geom="text",x=-87.9, y=41.93, label = "Chicago O'Hare\nInternational Airport",
            size = 2.5, color='grey30') +
+  guides(fill = guide_colourbar(barwidth = 1, barheight=8))+
   labs(title="Average Rate of Graffiti Removal Requests\nin 2016-2018 by Community Area in Chicago")+
-  theme(legend.position=c(0.05,0.3), legend.background = element_rect(fill="transparent"),
+  theme(legend.position=c(0.05,0.15), 
+        legend.background = element_rect(fill="transparent"),
+        legend.title = element_text(size=8, vjust=1.05, color='grey30'),
+        legend.text = element_text(color='grey40'),
         plot.title = element_text(size=10))
 
 
 grid.arrange(p1, p2, nrow=1,
-             bottom=text_grob("Source: Chicago Data Portal & Chicago Metropolitan Agency for Planning",
-                              size=12))
+             bottom=text_grob("Source: Chicago Data Portal & Chicago Metropolitan Agency for Planning", size=10, color='grey40'))
 ```
 
 The graph shows a contrasting relationship between the crime rate and graffiti removal request rate. That is, areas with more crimes tend to have fewer requests (per 100 residents) and vice versa. For example, the south area is one where this relationship is quite pronounced as it has a very high crime rate and a low number of graffiti removal requests. Overall, the relationship is not 100% clear on this map as there are areas where the crime rate and the request rate are both low (e.g. the far north area), but further discovery will be discussed in the sections below.
@@ -139,11 +152,7 @@ The graph shows a contrasting relationship between the crime rate and graffiti r
 One may argue that the number of graffiti removal requests in an area would depend on its level of criminal damage crime rate -- that is, areas with more vandalism and similar incidents should have more graffiti, hence more removal requests than those with fewer graffiti. In this specific case, however, this is neither entirely true nor wrong.
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| tidy: true
-
+#| fig-cap: "Figure 2: Graffiti Removal and Criminal Damage Crimes vs. Other Crimes"
 community_crime_adj = community_crime |> 
   arrange(graffiti_requests_per_100)
 
@@ -151,14 +160,14 @@ ggplot(community_crime_adj, aes(x=avg_crim_dam_rate, y=avg_non_dam_crime_rate, c
   geom_point(size=3.5, alpha=0.8) +
   theme_minimal() +
   scale_color_gradient("Number of Requests\nper 100 Residents",
-                       low="#D2ECED", high="#388B8D",
+                       low="#BBFCF1", high="#122C69",
                        limits = c(0,80),
                        breaks=scales::pretty_breaks(n=5))+
   scale_y_continuous(breaks=scales::pretty_breaks(n=6),
                      limit=c(0,40))+
   scale_x_continuous(limit=c(0,5))+
-  guides(colour = guide_colourbar(direction = "horizontal", reverse = T)) +
-  theme(legend.position = c(0.8,1),
+  guides(colour = guide_colourbar(barwidth = 10, barheight=1, direction = "horizontal")) +
+  theme(legend.position = 'bottom',
         legend.title = element_text(size=9, vjust=1.05, color='grey40'),
         legend.text = element_text(color='grey40'),
         axis.title = element_text(color='grey30', size=11),
@@ -172,14 +181,12 @@ ggplot(community_crime_adj, aes(x=avg_crim_dam_rate, y=avg_non_dam_crime_rate, c
   annotate("rect", xmin=0.2, xmax=1.5, ymin=0.2, ymax=15, alpha=0.07)
 ```
 
-This graph illustrates that areas with very high crime rates (either criminal damage or other criminal crimes) still have very few graffiti removal requests. Assuming that the criminal damage crime rate (which includes vandalism) is somewhat representative of graffiti incidents, this would imply that the low number of graffiti requests in high crime-level areas is not because these areas do not have any graffiti to remove, but simply because they do not do so. However, the question remains in the lower crime level areas: there is still a mixture of both high and low numbers of graffiti removal requests in the shaded area (low crime rate) in the graph above and it is shown more clearly in the graph below:
+This graph illustrates that areas with very high crime rates (either criminal damage or other criminal crimes) still have very few graffiti removal requests. Assuming that the criminal damage crime rate (which includes vandalism) is somewhat representative of graffiti incidents, this would imply that the low number of graffiti requests in high crime-level areas is not because these areas do not have any graffiti to remove, but simply because they do not do so. 
+
+However, the question remains in the lower crime level areas: there is still a mixture of both high and low numbers of graffiti removal requests in the shaded area (low crime rate) in the graph above and it is shown more clearly in the graph below:
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| tidy: true
-
+#| fig-cap: "Figure 3: The Distribution of Graffiti Removal Request Rate by Crime Level"
 ggplot(community_crime, aes(x=graffiti_requests_per_100, fill=crime_level))+
   geom_density(alpha=0.4) +
   theme_minimal() +
@@ -203,28 +210,26 @@ ggplot(community_crime, aes(x=graffiti_requests_per_100, fill=crime_level))+
 
 ### Income Plays an Important Role
 
-One possible explanation for the observation in question above is that areas of higher levels of income generally have lower crime rates, or fewer graffiti vandalism incidents, hence lessening the need to submit a graffiti removal request.
+One possible explanation for the observation in question above is that areas of higher levels of income generally have lower crime rates, or fewer graffiti vandalism incidents, hence reducing the need to submit a graffiti removal request.
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| tidy: true
+#| fig-cap: "Figure 4: The Impact of Income on the Relationship between Graffiti Removal and Crime Rate"
 
 ggplot(community_crime, aes(x=graffiti_requests_per_100, y=avg_crime_rate, color=inc_level)) +
   geom_point(size = 2.5, alpha=0.8) +
   theme_minimal()+
   gghighlight(unhighlighted_params = list(alpha=0.3)) + 
   facet_wrap(vars(inc_level)) +
-  scale_color_manual(values = c("#94D6D6", "#44B3B2", "#2E7878")) +
+  scale_color_manual(values = c("#BDAAD5", "#9882B1", "#7c668d")) +
   labs(x="Number of Graffiti Removal Requests\nper 100 Residents",
        y="Average Overall Crime Rate (%)",
        caption="Source: Chicago Data Portal & Chicago Metropolitan Agency for Planning",
        title = "Effect of Income on the Relationship between\nGraffiti Removal and Average Crime Rate",
        subtitle = "The relationship is more pronounced in areas wherein income is low to medium.\nWealthy areas typically have lower crime rate, thus fewer graffiti to remove")+
   theme(axis.title = element_text(color='grey30', size=10),
+        axis.title.x = element_text(vjust = -0.05),
         plot.subtitle = element_text(color='grey20'),
-        plot.caption = element_text(color='grey30'))
+        plot.caption = element_text(color='grey30', vjust = -0.05))
 ```
 
 The inverse relationship between graffiti removal and crime rate is quite clear in areas of low to medium income levels and less so for higher-income areas. Other factors may contribute to this relationship as well that might create some deviation from the main trend, but overall, graffiti removal, to some extent, appears to help with crime reduction.
@@ -249,8 +254,6 @@ Gladwell, M. (2002). *The Tipping Point: How Little Things Can Make A Big Differ
 
 This section is solely dedicated to demonstrate the code for data wrangling from the raw data to the one used to create the graphs in this report.
 
-For the code used to generate the graphs or this document in general, see `Code </>` on the top of the document.
-
 ``` r
 ## Download the raw data (crime data)
 crime = read_csv('https://data.cityofchicago.org/api/views/ijzp-q8t2/rows.csv?accessType=DOWNLOAD')
@@ -273,7 +276,6 @@ graffiti = read_csv("https://data.cityofchicago.org/api/views/8tus-apua/rows.csv
 ## Select columns of interest
 graffiti = graffiti |> 
   select(c(`Creation Date`, Status, `Completion Date`, `Community Area`))
-
 
 ## Demographics data on community areas
 ## data available at https://www.cmap.illinois.gov/data/data-hub
@@ -301,7 +303,6 @@ non_dam_crime_rate = criminal |>
   mutate(crime_rate = 100*total_incidents/TOT_POP) |> 
   group_by(across(-c(Year,total_incidents, crime_rate))) |> 
   summarise(avg_non_dam_crime_rate = mean(crime_rate))
-
 
 crim_dam_rate = criminal |> 
   filter(`Primary Type` == "CRIMINAL DAMAGE") |> 
