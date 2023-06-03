@@ -8,7 +8,6 @@ format:
     code-fold: true
     code-tools: true
     code-link: true
-    highlight-style: github
     paged-df: true
     toc: true
     toc-float: true
@@ -20,7 +19,6 @@ format:
     documentclass: report
     toc: true
     code-overflow: wrap
-    highlight-style: github
     fig-width: 7
     fig-height: 5
     fig-cap-location: top
