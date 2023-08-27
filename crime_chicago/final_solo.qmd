@@ -1,6 +1,6 @@
 ---
 title: "Graffiti Impact on Crimes"
-subtitle: "An explanatory analysis on the relationship between Graffiti Removal and Crime Rates in the City of Chicago"
+subtitle: "An exploratory analysis on the relationship between Graffiti Removal and Crime Rates in the City of Chicago"
 author: "Linh Tran"
 date: last-modified
 format: 
