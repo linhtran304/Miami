@@ -1,8 +1,7 @@
 ---
-title: "Graffiti Impact on Crimes"
-subtitle: "An exploratory analysis on the relationship between Graffiti Removal and Crime Rates in the City of Chicago"
+title: "Graffiti and Crimes"
+subtitle: "An exploratory analysis on the relationship between graffiti removal and crime rates in the City of Chicago"
 author: "Linh Tran"
-date: last-modified
 format: 
   html:
     code-fold: true
@@ -179,7 +178,7 @@ ggplot(community_crime_adj, aes(x=avg_crim_dam_rate, y=avg_non_dam_crime_rate, c
   annotate("rect", xmin=0.2, xmax=1.5, ymin=0.2, ymax=15, alpha=0.07)
 ```
 
-This graph illustrates that areas with very high crime rates (either criminal damage or other criminal crimes) still have very few graffiti removal requests. Assuming that the criminal damage crime rate (which includes vandalism) is somewhat representative of graffiti incidents, this would imply that the low number of graffiti requests in high crime-level areas is not because these areas do not have any graffiti to remove, but simply because they do not do so. 
+This graph illustrates that areas with very high crime rates (either criminal damage or other criminal crimes) still have very few graffiti removal requests. Assuming that the criminal damage crime rate (which includes vandalism) is somewhat representative of graffiti incidents, this would imply that the low number of graffiti requests in high crime-level areas is not because these areas do not have any graffiti to remove, but simply because they do not do so.
 
 However, the question remains in the lower crime level areas: there is still a mixture of both high and low numbers of graffiti removal requests in the shaded area (low crime rate) in the graph above and it is shown more clearly in the graph below:
 
